@@ -1,0 +1,14 @@
+[user]
+	name = syokenz
+	email = 
+[core]
+	autocrlf = false
+	pager = nkf -s | LESSCHARSET=utf-8 less
+[http]
+	sslVerify = false
+[color]
+	ui = true
+[alias]
+	hist = log --oneline --graph --decorate --all -n 20
+	ci = commit -a -m
+	st = status
