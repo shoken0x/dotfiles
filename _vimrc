@@ -25,3 +25,11 @@ set splitbelow
 "実行時間を表示
 let g:quickrun_config = {'*': {'hook/time/enable': '1'},}
 
+"for vundle
+"Vim を起動して :BundleInstall
+set rtp+=~/.vim/vundle/   "vundleのディレクトリ
+call vundle#rc()
+Bundle 'thinca/vim-quickrun'
+
+filetype plugin indent on     " required!
+
