@@ -302,3 +302,6 @@ colorscheme darkblue
 
 "バックアップファイルを作成しない
 set nobackup
+
+"Beep Off
+set visualbell t_vb=
