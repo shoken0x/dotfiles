@@ -1,0 +1,61 @@
+"3.5 (created: 2012/08/04 00:41:20)
+
+source! "C:\\Documents and Settings\\nriuser\\_vimperatorrc.local"
+
+" vimperatorrc
+" http://d.hatena.ne.jp/lillilife/20090423/1240489978
+
+" hintで表示される文字の設定
+set hintchars="ifjklasdhguonmerwc"
+
+" Firefox デフォルトは 「Mozilla - Firefox」、vimperatorを入れると「vimperator」
+set titlestring=Firefox
+
+" リンクのURIをステータスラインに表示
+set showstatuslinks=1
+
+" ページロード時にテキストボックスにフォーカスするのを防ぐ
+set focuscontent
+
+" 詳細表示を9行に(最大値=9)
+set verbose=9
+
+" 選択文字列ののコピーを <C-c> に割り当て
+map <C-c> :echo Yank!<CR>Y
+
+" j/k でのスクロール幅を 1行 から 3行 に変更
+map j 3<C-e>
+map k 3<C-y>
+
+" Backspace に戻るを割り当て
+map <BS> <A-Left>
+
+"検索バーにフォーカス
+map <C-k> <C-v><C-k>
+
+" Shift + ← → で現在のタブの位置変更
+map <S-Right> :tabmove! +1<CR>
+map <S-Left>  :tabmove! -1<CR>
+
+
+" Ctrl-a で全選択
+inoremap <C-a> <Ins><C-a><Ins>
+
+
+"=============================================
+" Plugin Config
+"=============================================
+" Smooziee 移動量を設定
+let g:smooziee_scroll_amount="150"
+let g:smooziee_scroll_interval="100"
+
+
+
+" 読み込んだ事を出力
+echo "$home/vimperator/.vimperatorrc sourced"
+
+" 再読み込みコマンド
+" source $home\vimperator\.vimperatorrc
+
+
+" vim: set ft=vimperator:
