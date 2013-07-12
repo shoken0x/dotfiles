@@ -1,14 +1,17 @@
 [user]
 	name = syokenz
-	email = 
-[core]
-	autocrlf = false
-	pager = nkf -s | LESSCHARSET=utf-8 less
-[http]
-	sslVerify = false
+	email = syokenz@gmail.com
 [color]
-	ui = true
+	ui = auto
+[core]
+	shared = true
+    autocrlf = false
+    pager = nkf -s | LESSCHARSET=utf-8 less
 [alias]
-	hist = log --oneline --graph --decorate --all -n 20
-	ci = commit -a -m
-	st = status
+	co = checkout
+    hist = log --oneline --graph --decorate --all -n 20
+    histp = log --pretty=format:"%h%x09%an%x09%ad%x09%s" --graph --decorate --all -n 20
+    ci = commit -a -m
+    ls = log --graph --date-order --all --color --pretty=format:'%Cblue%h %Cgreen%ci %Cred%cn %Cblue%m %Creset%s %Cred%d'
+    tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
+    st = status
