@@ -41,7 +41,6 @@ set smartcase "検索文字列に大文字が含まれている場合は区別�
 set noincsearch "検索文字列入力時に順次対象文字列にヒットさせない
 set encoding=utf8
 
-
 "for vundle
 "Vim を起動して :BundleInstall
 "set rtp+=~/.vim/vundle/   "vundleのディレクトリ
