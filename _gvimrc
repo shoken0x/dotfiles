@@ -19,4 +19,4 @@ set nobackup
 set visualbell t_vb=
 
 "カレント行をハイライトしない
-set cursorline 
+set nocursorline 
