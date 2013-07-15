@@ -1,5 +1,3 @@
-set nu
-set nocompatible
 syntax on
 filetype on
 "filetype indent on
@@ -25,7 +23,7 @@ imap <Nul> <C-x><C-o>
 " erbでシンタックスハイライト
 autocmd BufRead,BufNewFile *.ejs set filetype=ejs.jsp
 
-set cursorline
+set cursorline " カレント行をハイライト
 highlight CursorLine ctermbg=Blue
 highlight CursorLine ctermfg=White
 
