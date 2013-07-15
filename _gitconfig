@@ -1,14 +1,13 @@
 [user]
-	name = syokenz
-	email = syokenz@gmail.com
+    name = syokenz
+    email = syokenz@gmail.com
 [color]
-	ui = auto
+    ui = auto
 [core]
-	shared = true
+    shared = true
     autocrlf = false
-    pager = nkf -s | LESSCHARSET=utf-8 less
 [alias]
-	co = checkout
+    co = checkout
     hist = log --oneline --graph --decorate --all -n 20
     histp = log --pretty=format:"%h%x09%an%x09%ad%x09%s" --graph --decorate --all -n 20
     ci = commit -a -m
