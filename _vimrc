@@ -1,6 +1,4 @@
 syntax on
-filetype plugin indent on 
-filetype indent on
 
 set nocompatible            " vi非互換モード
 set number                  " 行番号表示
@@ -45,19 +43,104 @@ nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up>   gk
 
-" RSense
-let g:rsenseHome = "/Users/fujisaki/.vim/rsense-0.3/"
-" キーバインド変更
-imap <C-x> <C-x><C-o>
-" 自動補完 autocomplpop.vimが必要
-" let g:rsenseUseOmniFunc = 1
-
-"新しいウィンドウを下へ追加
-"set splitbelow
-
-"実行時間を表示
-"let g:quickrun_config = {'*': {'hook/time/enable': '1'},}
-
 set background=dark
 colorscheme solarized
 let g:solarized_termcolors=256
+"undoファイルを一箇所で管理
+set undodir=/home/fujisaki/.vim/undo
+
+" NeoBundle がインストールされていない時、
+" もしくは、プラグインの初期化に失敗した時の処理
+function! s:WithoutBundles()
+  colorscheme desert
+  " その他の処理
+endfunction
+
+" NeoBundle よるプラグインのロードと各プラグインの初期化
+function! s:LoadBundles()
+  " 読み込むプラグインの指定
+  NeoBundle 'Shougo/neobundle.vim'
+  NeoBundle 'tpope/vim-surround'
+  NeoBundle 'tpope/vim-rails'
+  NeoBundleLazy 'Shougo/unite.vim', {
+  \   'autoload' : {
+  \       'commands' : [ "Unite", "UniteWithBufferDir", "UniteWithCurrentDir" ]
+  \   }
+  \}
+  NeoBundle 'Shougo/neomru.vim'
+  if has('lua')
+    NeoBundleLazy 'Shougo/neocomplete', {
+    \   'depends' : ['Shougo/neosnippet', 'Shougo/context_filetype.vim'],
+    \   'autoload' : {
+    \       'insert' : 1,
+    \   }
+    \}
+  endif
+  " colorschemes
+  NeoBundle 'ujihisa/unite-colorscheme'
+  NeoBundle 'nanotech/jellybeans.vim'
+  NeoBundle 'w0ng/vim-hybrid'
+  NeoBundle 'vim-scripts/twilight'
+  NeoBundle 'jonathanfilip/vim-lucius'
+  NeoBundle 'jpo/vim-railscasts-theme'
+  NeoBundle 'altercation/vim-colors-solarized'
+  NeoBundle 'vim-scripts/Wombat'
+  NeoBundle 'tomasr/molokai'
+  NeoBundle 'vim-scripts/rdark'
+
+  " ...
+  " 読み込んだプラグインの設定
+  " ...
+  " for Unite
+  let g:unite_enable_start_insert=1
+  " for neomru
+  let g:neomru#time_format = "(%Y/%m/%d %H:%M:%S) "
+  noremap :um :Unite file_mru
+
+endfunction
+
+" NeoBundle がインストールされているなら LoadBundles() を呼び出す
+" そうでないなら WithoutBundles() を呼び出す
+function! s:InitNeoBundle()
+  if isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
+    filetype plugin indent off
+    if has('vim_starting')
+      set runtimepath+=~/.vim/bundle/neobundle.vim/
+    endif
+    try
+      call neobundle#rc(expand('~/.vim/bundle/'))
+      call s:LoadBundles()
+    catch
+      call s:WithoutBundles()
+    endtry 
+  else
+    call s:WithoutBundles()
+  endif
+
+  filetype indent plugin on
+  syntax on
+endfunction
+
+call s:InitNeoBundle()
+
+" neocomplete用設定
+if neobundle#is_installed('neocomplete')
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_ignore_case = 1
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#force_overwrite_completefunc = 1
+
+  if !exists('g:neocomplete#keyword_patterns')
+      let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns._ = '\h\w*'
+
+  if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+  let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+endif
+
+filetype  plugin indent on
