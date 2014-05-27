@@ -58,12 +58,9 @@ function! s:LoadBundles()
   NeoBundle 'Shougo/neobundle.vim'
   NeoBundle 'tpope/vim-surround'
   NeoBundle 'tpope/vim-rails'
-  NeoBundleLazy 'Shougo/unite.vim', {
-  \   'autoload' : {
-  \       'commands' : [ "Unite", "UniteWithBufferDir", "UniteWithCurrentDir" ]
-  \   }
-  \}
+  NeoBundle 'Shougo/unite.vim'
   NeoBundle 'Shougo/neomru.vim'
+  NeoBundleLazy 'Shougo/neosnippet'
   if has('lua')
     NeoBundleLazy 'Shougo/neocomplete', {
     \   'depends' : ['Shougo/neosnippet', 'Shougo/context_filetype.vim'],
