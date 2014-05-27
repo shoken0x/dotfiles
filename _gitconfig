@@ -1,5 +1,5 @@
 [user]
-    name = syokenz
+    name = shoken
     email = syokenz@gmail.com
 [color]
     ui = auto
@@ -8,9 +8,23 @@
     autocrlf = false
 [alias]
     co = checkout
+    br = branch
     hist = log --oneline --graph --decorate --all -n 20
     histp = log --pretty=format:"%h%x09%an%x09%ad%x09%s" --graph --decorate --all -n 20
     ci = commit -a -m
     ls = log --graph --date-order --all --color --pretty=format:'%Cblue%h %Cgreen%ci %Cred%cn %Cblue%m %Creset%s %Cred%d'
     tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
-    st = status
+    st = status -sb
+    logone = log --oneline --decorate
+[pager]
+    log = diff-highlight | less
+    show = diff-highlight | less
+    diff = diff-highlight | less
+[merge]
+        tool = p4merge
+[mergetool]
+        keepBackup = false
+[mergetool "p4merge"]
+        path = p4merge
+        keepTemporaries = false
+        trustExitCode = false
