@@ -32,9 +32,9 @@ highlight CursorLine ctermbg=Blue
 highlight CursorLine ctermfg=White
 
 set wrapscan
-set ignorecase  "検索文字列が小文字の場合は大文字小文字を区別なく検索する
-set smartcase "検索文字列に大文字が含まれている場合は区別して検索する
-set noincsearch "検索文字列入力時に順次対象文字列にヒットさせない
+set ignorecase   "検索文字列が小文字の場合は大文字小文字を区別なく検索する
+set smartcase    "検索文字列に大文字が含まれている場合は区別して検索する
+set noincsearch  "検索文字列入力時に順次対象文字列にヒットさせない
 set encoding=utf8
 
 "カーソルを表示行で移動する。物理行移動は<C-n>,<C-p>
@@ -43,17 +43,13 @@ nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up>   gk
 
-set background=dark
-colorscheme solarized
-let g:solarized_termcolors=256
 "undoファイルを一箇所で管理
 set undodir=/home/fujisaki/.vim/undo
 
 " NeoBundle がインストールされていない時、
 " もしくは、プラグインの初期化に失敗した時の処理
 function! s:WithoutBundles()
-  colorscheme desert
-  " その他の処理
+  "colorscheme desert
 endfunction
 
 " NeoBundle よるプラグインのロードと各プラグインの初期化
@@ -144,3 +140,7 @@ if neobundle#is_installed('neocomplete')
 endif
 
 filetype  plugin indent on
+
+set background=dark
+colorscheme solarized
+let g:solarized_termcolors=256
