@@ -18,7 +18,7 @@ set nobackup
 set visualbell t_vb=
 
 "カレント行をハイライトしない
-set nocursorline 
+set nocursorline
 
 "勝手に改行しない
 set textwidth=0
@@ -26,5 +26,7 @@ set textwidth=0
 " タブ
 ca tn tabnew
 
+" colorscheme
+autocmd ColorScheme * highlight LineNr ctermfg=11 guifg=#707880
 set background=dark
 colorscheme hybrid
