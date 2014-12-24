@@ -6,6 +6,7 @@
 [core]
     shared = true
     autocrlf = false
+    editor = /usr/bin/vim
 [alias]
     co = checkout
     br = branch
