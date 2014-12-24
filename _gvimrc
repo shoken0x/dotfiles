@@ -27,6 +27,9 @@ set textwidth=0
 ca tn tabnew
 
 " colorscheme
-autocmd ColorScheme * highlight LineNr ctermfg=11 guifg=#707880
+augroup gvimrc
+  autocmd!
+  autocmd ColorScheme * highlight LineNr ctermfg=11 guifg=#707880
+augroup END
 set background=dark
 colorscheme hybrid

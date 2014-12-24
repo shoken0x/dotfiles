@@ -1,6 +1,6 @@
-syntax on
+set encoding=utf8
+scriptencoding utf-8
 
-set nocompatible            " vi非互換モード
 set number                  " 行番号表示
 set showmode                " モード表示
 set title                   " 編集中のファイル名を表示
@@ -24,8 +24,11 @@ set nosi "smartindentを無効
 "<C-Space>でomni補完
 imap <Nul> <C-x><C-o>
 
-" erbでシンタックスハイライト
-autocmd BufRead,BufNewFile *.ejs set filetype=ejs.jsp
+" ejsでシンタックスハイライト
+augroup vimrc
+  autocmd!
+  autocmd BufRead,BufNewFile *.ejs set filetype=ejs.jsp
+augroup END
 
 set cursorline " カレント行をハイライト
 highlight CursorLine ctermbg=Blue
@@ -35,7 +38,6 @@ set wrapscan
 set ignorecase   "検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set smartcase    "検索文字列に大文字が含まれている場合は区別して検索する
 set noincsearch  "検索文字列入力時に順次対象文字列にヒットさせない
-set encoding=utf8
 
 "カーソルを表示行で移動する。物理行移動は<C-n>,<C-p>
 nnoremap j gj
@@ -60,6 +62,7 @@ function! s:LoadBundles()
   NeoBundle 'tpope/vim-rails'
   NeoBundle 'Shougo/unite.vim'
   NeoBundle 'Shougo/neomru.vim'
+  NeoBundle 'Shougo/neosnippet-snippets'
   NeoBundleLazy 'Shougo/neosnippet'
   if has('lua')
     NeoBundleLazy 'Shougo/neocomplete', {
@@ -137,6 +140,8 @@ if neobundle#is_installed('neocomplete')
 endif
 
 filetype  plugin indent on
+
+syntax on
 
 set background=dark
 colorscheme solarized
