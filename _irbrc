@@ -1,0 +1,9 @@
+require 'irb/completion'
+IRB.conf[:AUTO_INDENT] = true
+IRB.conf[:EVAL_HISTORY] = 100
+IRB.conf[:SAVE_HISTORY] = 100000
+IRB.conf[:IRB_RC] = lambda do |conf|
+  puts "-- include ~/.irbrc --"
+end
+require 'wirb'
+Wirb.start

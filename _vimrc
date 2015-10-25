@@ -1,6 +1,9 @@
 set encoding=utf8
 scriptencoding utf-8
 
+inoremap <silent> jj <ESC>
+cnoremap nh nohlsearch
+
 set number                  " 行番号表示
 set showmode                " モード表示
 set title                   " 編集中のファイル名を表示
@@ -138,6 +141,8 @@ if neobundle#is_installed('neocomplete')
   inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 endif
+
+autocmd QuickFixCmdPost *grep* cwindow
 
 filetype  plugin indent on
 

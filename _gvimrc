@@ -7,8 +7,9 @@ set transparency=10 " 透明度を指定
 map <silent> gw :macaction selectNextWindow:
 map <silent> gW :macaction selectPreviousWindow:
 set antialias
-set guifont=Monaco:h13
-set lines=60 columns=100
+"set guifont=Monaco:h12
+set guifont=Hack:h12
+set lines=60 columns=150
 set guioptions-=T
 
 "バックアップファイルを作成しない
@@ -17,8 +18,8 @@ set nobackup
 "Beep Off
 set visualbell t_vb=
 
-"カレント行をハイライトしない
-set nocursorline
+set cursorline
+"highlight CursorLine guibg=Red
 
 "勝手に改行しない
 set textwidth=0

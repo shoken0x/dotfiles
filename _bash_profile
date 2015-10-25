@@ -1,0 +1,22 @@
+export PATH="$HOME/.rbenv/bin:$PATH" 
+eval "$(rbenv init -)"
+
+# for swift
+export PATH=/Applications/Xcode6-Beta3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/:$PATH
+
+# for aws-cli
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export AWS_CONFIG_FILE=~/.aws_access
+
+alias pong='perl -nle '\''print "display notification \"$_\" with title \"Terminal\""'\'' | osascript'
+alias mdfind='mdfind -onlyin ./ -name'
+
+# Add GHC 7.10.1 to the PATH, via https://ghcformacosx.github.io/
+export GHC_DOT_APP="/Applications/ghc-7.10.1.app"
+if [ -d "$GHC_DOT_APP" ]; then
+  export PATH="${HOME}/.cabal/bin:${GHC_DOT_APP}/Contents/bin:${PATH}"
+fi
+
+# zsh only
+# alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//g"`'

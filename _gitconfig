@@ -8,6 +8,7 @@
     autocrlf = false
     editor = /usr/bin/vim
 [alias]
+    ad = add -p
     co = checkout
     br = branch
     hist = log --oneline --graph --decorate --all -n 20
