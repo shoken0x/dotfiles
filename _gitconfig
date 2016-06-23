@@ -31,3 +31,5 @@
         path = p4merge
         keepTemporaries = false
         trustExitCode = false
+[diff]
+        compactionHeuristic = true
