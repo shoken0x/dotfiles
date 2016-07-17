@@ -19,7 +19,7 @@ set autoread                " 他でファイルが編集された時に自動�
 set list
 set listchars=tab:»-,trail:▸" 不可視文字を可視化
 
-set expandtab "タブの代わりに空白文字挿入 
+set expandtab "タブの代わりに空白文字挿入
 set tabstop=2 shiftwidth=2 softtabstop=2 "インデント幅を2文字に
 "set autoindent "オートインデントを有効に
 set nosi "smartindentを無効
@@ -111,7 +111,7 @@ function! s:InitNeoBundle()
       call s:LoadBundles()
     catch
       call s:WithoutBundles()
-    endtry 
+    endtry
   else
     call s:WithoutBundles()
   endif
@@ -146,6 +146,16 @@ autocmd QuickFixCmdPost *grep* cwindow
 
 " 行末の空白を削除
 autocmd BufWritePre * :%s/\s\+$//ge
+
+" tmuxのウィンドウ名をvimの編集中のファイル名に設定する
+if $TMUX != ""
+  augroup titlesettings
+    autocmd!
+    autocmd BufEnter * call system("tmux rename-window " . "'[vim] " . expand("%:t") . "'")
+    autocmd VimLeave * call system("tmux rename-window zsh")
+    autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+  augroup END
+endif
 
 filetype  plugin indent on
 
