@@ -23,6 +23,7 @@ export LSCOLORS=gxfxcxdxbxegedabagacad
 alias ll='ls -lahG'
 alias rai='rails s'
 alias rail='rails s'
+alias git='/usr/local/bin/git'
 
 # Add GHC 7.10.1 to the PATH, via https://ghcformacosx.github.io/
 export GHC_DOT_APP="/Applications/ghc-7.10.1.app"

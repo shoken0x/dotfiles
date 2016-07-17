@@ -144,6 +144,9 @@ endif
 
 autocmd QuickFixCmdPost *grep* cwindow
 
+" 行末の空白を削除
+autocmd BufWritePre * :%s/\s\+$//ge
+
 filetype  plugin indent on
 
 syntax on
