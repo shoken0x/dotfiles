@@ -1,4 +1,4 @@
-export PATH="$HOME/.rbenv/bin:$PATH" 
+export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 HISTTIMEFORMAT='%Y%m%d %T';
@@ -24,6 +24,14 @@ alias ll='ls -lahG'
 alias rai='rails s'
 alias rail='rails s'
 alias git='/usr/local/bin/git'
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+    fi
+fi
 
 # Add GHC 7.10.1 to the PATH, via https://ghcformacosx.github.io/
 export GHC_DOT_APP="/Applications/ghc-7.10.1.app"
