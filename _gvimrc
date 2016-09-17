@@ -18,9 +18,6 @@ set nobackup
 "Beep Off
 set visualbell t_vb=
 
-set cursorline
-"highlight CursorLine guibg=Red
-
 "勝手に改行しない
 set textwidth=0
 
@@ -33,4 +30,3 @@ augroup gvimrc
   autocmd ColorScheme * highlight LineNr ctermfg=11 guifg=#707880
 augroup END
 set background=dark
-colorscheme hybrid
