@@ -1,5 +1,7 @@
 set number
 set noswapfile
+set cursorline
+set clipboard+=unnamedplus
 inoremap <silent> jj <ESC>
 cnoremap nh nohlsearch
 set autoread                " 他でファイルが編集された時に自動で読み込む
@@ -8,6 +10,7 @@ autocmd BufWritePre * :%s/\s\+$//ge " 行末の空白を削除
 set expandtab "タブの代わりに空白文字挿入
 set tabstop=2 shiftwidth=2 softtabstop=2 "インデント幅を2文字に
 set autoindent "オートインデントを有効に
+filetype plugin indent on
 
 " tmuxのウィンドウ名をvimの編集中のファイル名に設定する
 if $TMUX != ""
@@ -69,18 +72,39 @@ endif
 " syntastic + rubocop
 let g:syntastic_ruby_checkers = ['rubocop']
 
-colorscheme desert
-syntax on
-
-func GitGrep(...)
-  let save = &grepprg
-  set grepprg=git\ grep\ -niI\ $*
-  let s = 'grep'
-  for i in a:000
-    let s = s . ' ' . i
-  endfor
-  exe s
-  let &grepprg = save
-endfun
+if !exists("*GitGrep")
+  func GitGrep(...)
+    let save = &grepprg
+    set grepprg=git\ grep\ -niI\ $*
+    let s = 'grep'
+    for i in a:000
+      let s = s . ' ' . i
+    endfor
+    exe s
+    let &grepprg = save
+  endfun
 command -nargs=? G call GitGrep(<f-args>)
+endif
 autocmd QuickFixCmdPost *grep* cwindow
+
+" Shougo/deoplete.nvim
+let g:deoplete#enable_at_startup = 1
+
+" for Theme
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+"" Theme seoul256
+" let g:seoul256_background = 234
+" syntax enable
+" colorscheme seoul256
+
+"" Theme OceanicNext
+" syntax enable
+" colorscheme OceanicNext
+" set background=dark
+
+syntax enable
+colorscheme onedark
+highlight CursorLine cterm=NONE guibg=#444444
