@@ -1,6 +1,7 @@
 set number
 set noswapfile
-set cursorline
+" カーソル移動が遅くなるのでコメントアウト
+"set cursorline
 set clipboard+=unnamedplus
 inoremap <silent> jj <ESC>
 cnoremap nh nohlsearch
@@ -89,6 +90,10 @@ autocmd QuickFixCmdPost *grep* cwindow
 
 " Shougo/deoplete.nvim
 let g:deoplete#enable_at_startup = 1
+
+" Yggdroot/indentLine
+let g:indentLine_color_gui = '#555555'
+let g:indentLine_char = '|'
 
 " for Theme
 if (has("termguicolors"))
