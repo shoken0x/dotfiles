@@ -18,7 +18,7 @@ if $TMUX != ""
   augroup titlesettings
     autocmd!
     autocmd BufEnter * call system("tmux rename-window " . "'[vim] " . expand("%:t") . "'")
-    autocmd VimLeave * call system("tmux rename-window zsh")
+    autocmd VimLeave * call system("tmux rename-window bash")
     autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
   augroup END
 endif
@@ -89,6 +89,7 @@ endif
 autocmd QuickFixCmdPost *grep* cwindow
 
 " Shougo/deoplete.nvim
+let g:python3_host_prog="/usr/local/bin/python3"
 let g:deoplete#enable_at_startup = 1
 
 " Yggdroot/indentLine
