@@ -1,10 +1,10 @@
 set number
 set noswapfile
-" カーソル移動が遅くなるのでコメントアウト
-"set cursorline
+set cursorline
 set clipboard+=unnamedplus
 inoremap <silent> jj <ESC>
 cnoremap nh nohlsearch
+tnoremap <silent> <ESC> <C-\><C-n> " terminalモード用
 set autoread                " 他でファイルが編集された時に自動で読み込む
 
 autocmd BufWritePre * :%s/\s\+$//ge " 行末の空白を削除
@@ -97,9 +97,9 @@ let g:indentLine_color_gui = '#555555'
 let g:indentLine_char = '|'
 
 " for Theme
-if (has("termguicolors"))
-  set termguicolors
-endif
+"if (has("termguicolors"))
+"  set termguicolors
+"endif
 
 "" Theme seoul256
 " let g:seoul256_background = 234
@@ -107,10 +107,33 @@ endif
 " colorscheme seoul256
 
 "" Theme OceanicNext
-" syntax enable
-" colorscheme OceanicNext
-" set background=dark
+ syntax enable
+ colorscheme OceanicNext
+ set background=dark
 
-syntax enable
-colorscheme onedark
+"syntax enable
+" colorscheme onedark
 highlight CursorLine cterm=NONE guibg=#444444
+highlight Search ctermfg=15 ctermbg=68 guifg=#ffffff guibg=#6699cc
+
+if isdirectory(".git")
+  call denite#custom#var('file_rec', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
+  call denite#custom#var('grep', 'command', ['git', '--no-pager', 'grep'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'final_opts', [])
+  call denite#custom#var('grep', 'separator', [])
+  call denite#custom#var('grep', 'default_opts', ['-nH'])
+else
+  call denite#custom#var('file_rec', 'command',
+        \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
+  call denite#custom#var('grep', 'command', ['pt'])
+  call denite#custom#var('grep', 'default_opts',
+        \['--nogroup', '--nocolor', '--smart-case'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+endif
+
+cnoremap <silent> gg :<C-u>Denite grep -buffer-name=search-buffer-denite<CR>
+cnoremap <silent> ff :<C-u>Denite file_rec -buffer-name=search-buffer-denite<CR>

@@ -9,8 +9,14 @@ export HISTSIZE=10000
 # for git diff-highlight
 export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
 
-# for swift
-export PATH=/Applications/Xcode6-Beta3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/:$PATH
+export GOPATH=/Users/shoken/go
+export PATH=$GOPATH/bin:$PATH
+
+export QT_DIR="/usr/local/Cellar/qt/5.9.0"
+export PATH="/usr/local/opt/qt/bin:$PATH"
+
+export ANDROID_SDK=/Users/shoken/Library/Android/sdk/platform-tools
+export PATH=$ANDROID_SDK/:$PATH
 
 # for aws-cli
 export LC_ALL=en_US.UTF-8
@@ -21,8 +27,8 @@ alias pong='perl -nle '\''print "display notification \"$_\" with title \"Termin
 alias mdfind='mdfind -onlyin ./ -name'
 export LSCOLORS=gxfxcxdxbxegedabagacad
 alias ll='ls -lahG'
-alias rai='rails s'
-alias rail='rails s'
+alias rai='bundle exec rails s'
+alias rail='rai'
 alias git='/usr/local/bin/git'
 
 # if running bash
