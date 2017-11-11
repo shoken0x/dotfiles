@@ -3,6 +3,8 @@ scriptencoding utf-8
 
 inoremap <silent> jj <ESC>
 cnoremap nh nohlsearch
+" Escの2回押しでハイライト消去
+nmap <ESC><ESC> :nohlsearch<CR><ESC>
 
 set number                  " 行番号表示
 set showmode                " モード表示
@@ -51,5 +53,6 @@ set undodir=/home/fujisaki/.vim/undo
 filetype  plugin indent on
 syntax on
 set background=dark
+colorscheme lucario
 " colorscheme solarized
 " let g:solarized_termcolors=256
