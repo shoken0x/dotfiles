@@ -4,6 +4,7 @@ set cursorline
 set clipboard+=unnamedplus
 inoremap <silent> jj <ESC>
 cnoremap nh nohlsearch
+nmap <ESC><ESC> :nohlsearch<CR><ESC> " Escの2回押しでハイライト消去
 tnoremap <silent> <ESC> <C-\><C-n> " terminalモード用
 set autoread                " 他でファイルが編集された時に自動で読み込む
 
@@ -97,9 +98,10 @@ let g:indentLine_color_gui = '#555555'
 let g:indentLine_char = '|'
 
 " for Theme
-"if (has("termguicolors"))
-"  set termguicolors
-"endif
+" if (has("termguicolors"))
+"   set termguicolors
+" endif
+" set background=dark
 
 "" Theme seoul256
 " let g:seoul256_background = 234
@@ -107,12 +109,16 @@ let g:indentLine_char = '|'
 " colorscheme seoul256
 
 "" Theme OceanicNext
- syntax enable
- colorscheme OceanicNext
- set background=dark
+" syntax enable
+" colorscheme OceanicNext
 
-"syntax enable
+"" Theme onedark
 " colorscheme onedark
+
+"" Theme lucario
+syntax enable
+colorscheme lucario
+
 highlight CursorLine cterm=NONE guibg=#444444
 highlight Search ctermfg=15 ctermbg=68 guifg=#ffffff guibg=#6699cc
 
@@ -137,3 +143,8 @@ endif
 
 cnoremap <silent> gg :<C-u>Denite grep -buffer-name=search-buffer-denite<CR>
 cnoremap <silent> ff :<C-u>Denite file_rec -buffer-name=search-buffer-denite<CR>
+
+" for incsearch.vim
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
