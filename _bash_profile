@@ -1,10 +1,10 @@
 export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 HISTTIMEFORMAT='%Y%m%d %T';
 export HISTTIMEFORMAT
 export HISTCONTROL=ignoredups
-export HISTSIZE=10000
+export HISTSIZE=100000
 
 # for git diff-highlight
 export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
@@ -12,8 +12,13 @@ export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
 export GOPATH=/Users/shoken/go
 export PATH=$GOPATH/bin:$PATH
 
+export MONGOPATH=/opt/mongodb
+export PATH=$MONGOPATH/bin:$PATH
+
 export QT_DIR="/usr/local/Cellar/qt/5.9.0"
 export PATH="/usr/local/opt/qt/bin:$PATH"
+
+# export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 export ANDROID_SDK=/Users/shoken/Library/Android/sdk/platform-tools
 export PATH=$ANDROID_SDK/:$PATH
@@ -27,6 +32,7 @@ alias pong='perl -nle '\''print "display notification \"$_\" with title \"Termin
 alias mdfind='mdfind -onlyin ./ -name'
 export LSCOLORS=gxfxcxdxbxegedabagacad
 alias ll='ls -lahG'
+alias be='bundle exec'
 alias rai='bundle exec rails s'
 alias rail='rai'
 alias git='/usr/local/bin/git'
@@ -38,12 +44,3 @@ if [ -n "$BASH_VERSION" ]; then
     . "$HOME/.bashrc"
     fi
 fi
-
-# Add GHC 7.10.1 to the PATH, via https://ghcformacosx.github.io/
-export GHC_DOT_APP="/Applications/ghc-7.10.1.app"
-if [ -d "$GHC_DOT_APP" ]; then
-  export PATH="${HOME}/.cabal/bin:${GHC_DOT_APP}/Contents/bin:${PATH}"
-fi
-
-# zsh only
-# alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//g"`'
