@@ -15,7 +15,7 @@ export PATH=$GOPATH/bin:$PATH
 export MONGOPATH=/opt/mongodb
 export PATH=$MONGOPATH/bin:$PATH
 
-export QT_DIR="/usr/local/Cellar/qt/5.9.0"
+export QT_HOMEBREW=true
 export PATH="/usr/local/opt/qt/bin:$PATH"
 
 # export PATH=$HOME/.nodebrew/current/bin:$PATH
