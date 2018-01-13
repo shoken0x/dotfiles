@@ -16,8 +16,7 @@ filetype plugin indent on
 
 let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
-nnoremap <Leader>o :CtrlP<CR>
-nmap <Leader><Leader> V
+nmap <Leader><Leader> <C-v>
 
 " tmuxのウィンドウ名をvimの編集中のファイル名に設定する
 if $TMUX != ""
@@ -146,7 +145,8 @@ else
   call denite#custom#var('grep', 'final_opts', [])
 endif
 
-cnoremap <silent> gg :<C-u>Denite grep -buffer-name=search-buffer-denite<CR>
+cnoremap <silent> gg :<C-u>Denite grep -auto-preview -buffer-name=search-buffer-denite -default-action=vsplit<CR>
+cnoremap <silent> gr :<C-u>Denite grep -auto-preview -buffer-name=search-buffer-denite -default-action=vsplit -resume<CR>
 cnoremap <silent> ff :<C-u>Denite file_rec -buffer-name=search-buffer-denite<CR>
 
 " for incsearch.vim
