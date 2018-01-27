@@ -36,6 +36,7 @@ alias be='bundle exec'
 alias rai='bundle exec rails s'
 alias rail='rai'
 alias git='/usr/local/bin/git'
+alias gp='/usr/local/bin/git grep'
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
