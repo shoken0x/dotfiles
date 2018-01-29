@@ -1,3 +1,4 @@
+export REACT_EDITOR=vim
 #if [[ \$TMUX ]]; then source ~/.tmux-git/tmux-git.sh; fi
 #
 #function is_exists() { type "$1" >/dev/null 2>&1; return $?; }
