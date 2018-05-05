@@ -1,5 +1,5 @@
 [user]
-    name = syokenz
+    name = shoken
     email = syokenz@gmail.com
 [color]
     ui = auto
@@ -7,19 +7,21 @@
     shared = true
     autocrlf = false
     editor = /usr/bin/vim
+  commentchar = ^
 [alias]
     ad = add -p
     co = checkout
+    ci = commit -m
     br = branch
     hist = log --oneline --graph --decorate --all -n 20
     histp = log --pretty=format:"%h%x09%an%x09%ad%x09%s" --graph --decorate --all -n 20
     graph = log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order
-    ci = commit -a -m
     ls = log --graph --date-order --all --color --pretty=format:'%Cblue%h %Cgreen%ci %Cred%cn %Cblue%m %Creset%s %Cred%d'
     tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
     st = status -sb
     logone = log --oneline --decorate
     po = push origin head
+    gre = grep
 [pager]
     log = diff-highlight | less
     show = diff-highlight | less
