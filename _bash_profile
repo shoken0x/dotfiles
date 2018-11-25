@@ -20,8 +20,8 @@ export PATH="/usr/local/opt/qt/bin:$PATH"
 
 # export PATH=$HOME/.nodebrew/current/bin:$PATH
 
-export ANDROID_SDK=/Users/shoken/Library/Android/sdk/platform-tools
-export PATH=$ANDROID_SDK/:$PATH
+export ANDROID_HOME=/Users/shoken/Library/Android/sdk
+export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 
 # for aws-cli
 export LC_ALL=en_US.UTF-8
