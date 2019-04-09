@@ -60,6 +60,15 @@ call denite#custom#var('grep', 'recursive_opts', [])
 [[plugins]] # for resizing vim window
 repo = 'simeji/winresizer'
 
+# for JavaScript
+[[plugins]]
+repo = 'prettier/vim-prettier'
+on_ft = ['javascript', 'javascript.jsx']
+
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+on_ft = ['javascript', 'javascript.jsx']
+
 # gonvim
 ## [[plugins]]
 ## repo = 'equalsraf/neovim-gui-shim'

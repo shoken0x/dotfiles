@@ -18,15 +18,21 @@ let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
 nmap <Leader><Leader> <C-v>
 
+" 最後にカーソルがあった場所に移動
+augroup vimrcEx
+  au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
+  \ exe "normal g`\"" | endif
+augroup END<Paste>
+
 " tmuxのウィンドウ名をvimの編集中のファイル名に設定する
-if $TMUX != ""
-  augroup titlesettings
-    autocmd!
-    autocmd BufEnter * call system("tmux rename-window " . "'[vim] " . expand("%:t") . "'")
-    autocmd VimLeave * call system("tmux rename-window bash")
-    autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
-  augroup END
-endif
+"if $TMUX != ""
+"  augroup titlesettings
+"    autocmd!
+"    autocmd BufEnter * call system("tmux rename-window " . "'[vim] " . expand("%:t") . "'")
+"    autocmd VimLeave * call system("tmux rename-window bash")
+"    autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+"  augroup END
+"endif
 
 " タブ
 ca tn tabnew
@@ -106,6 +112,8 @@ let g:indentLine_char = '|'
 "   set termguicolors
 " endif
 " set background=dark
+" syntax off
+syntax on
 
 "" Theme seoul256
 " let g:seoul256_background = 234
@@ -113,15 +121,13 @@ let g:indentLine_char = '|'
 " colorscheme seoul256
 
 "" Theme OceanicNext
-" syntax enable
-" colorscheme OceanicNext
+colorscheme OceanicNext
 
 "" Theme onedark
 " colorscheme onedark
 
 "" Theme lucario
-syntax enable
-colorscheme lucario
+" colorscheme lucario
 
 highlight CursorLine cterm=NONE guibg=#444444
 highlight Search ctermfg=15 ctermbg=68 guifg=#ffffff guibg=#6699cc
@@ -134,22 +140,28 @@ if isdirectory(".git")
   call denite#custom#var('grep', 'separator', [])
   call denite#custom#var('grep', 'default_opts', ['-nH'])
 else
-  call denite#custom#var('file_rec', 'command',
-        \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
-  call denite#custom#var('grep', 'command', ['pt'])
-  call denite#custom#var('grep', 'default_opts',
-        \['--nogroup', '--nocolor', '--smart-case'])
+  call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
+  call denite#custom#var('grep', 'command',     ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '--smart-case'])
+  call denite#custom#var('grep', 'default_opts', [])
   call denite#custom#var('grep', 'recursive_opts', [])
   call denite#custom#var('grep', 'pattern_opt', [])
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
 endif
 
-cnoremap <silent> gg :<C-u>Denite grep -auto-preview -buffer-name=search-buffer-denite -default-action=vsplit<CR>
-cnoremap <silent> gr :<C-u>Denite grep -auto-preview -buffer-name=search-buffer-denite -default-action=vsplit -resume<CR>
+"nnoremap [denite] <Nop>
+"nmap <C-d> [denite]
+"nnoremap <silent> [denite]g :<C-u>Denite grep -auto-preview -buffer-name=search-buffer-denite -default-action=vsplit<CR>
+"nnoremap <silent> [denite]r :<C-u>Denite grep -auto-preview -buffer-name=search-buffer-denite -default-action=vsplit -resume<CR>
+"cnoremap <silent> gg :<C-u>Denite grep -auto-preview -buffer-name=search-buffer-denite -default-action=vsplit<CR>
+"cnoremap <silent> gr :<C-u>Denite grep -auto-preview -buffer-name=search-buffer-denite -default-action=vsplit -resume<CR>
+cnoremap <silent> gg :<C-u>Denite grep -buffer-name=search-buffer-denite -default-action=vsplit<CR>
+cnoremap <silent> gr :<C-u>Denite grep -buffer-name=search-buffer-denite -default-action=vsplit -resume<CR>
 cnoremap <silent> ff :<C-u>Denite file_rec -buffer-name=search-buffer-denite<CR>
 
 " for incsearch.vim
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
+
+let g:ruby_path = ""
