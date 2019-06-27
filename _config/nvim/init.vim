@@ -82,7 +82,10 @@ if dein#check_install()
 endif
 
 " syntastic + rubocop
-let g:syntastic_ruby_checkers = ['rubocop']
+" let g:syntastic_ruby_checkers = ['rubocop']
+" ale + rubocop
+let g:ale_fixers = {'ruby': ['rubocop'],}
+let g:ale_fix_on_save = 1
 
 if !exists("*GitGrep")
   func GitGrep(...)
@@ -113,11 +116,10 @@ let g:indentLine_char = '|'
 " endif
 " set background=dark
 " syntax off
-syntax on
+syntax enable
 
 "" Theme seoul256
 " let g:seoul256_background = 234
-" syntax enable
 " colorscheme seoul256
 
 "" Theme OceanicNext

@@ -19,6 +19,9 @@ on_ft = 'toml'
 [[plugins]]
 repo = 'scrooloose/syntastic.git'
 
+[[plugins]]
+repo = 'w0rp/ale'
+
 [[plugins]] # Theme
 repo = 'junegunn/seoul256.vim'
 
