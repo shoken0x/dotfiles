@@ -1,0 +1,60 @@
+export ZLS_COLORS=$LS_COLORS
+
+# 履歴
+setopt extended_history   # 履歴ファイルに時刻を記録
+setopt inc_append_history # シェルの終了を待たずにコマンド履歴を保存
+setopt share_history      # プロセスごとに履歴を共有
+# setopt hist_expand        # !からの履歴補完. BANG_HIST の alias. default で on
+
+# 履歴補完
+# autoload -Uz predict-on && predict-on
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
+
+# コマンド補完
+autoload -Uz compinit && compinit
+autoload colors
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # 大文字、小文字を区別せず補完する
+zstyle ':completion:*:default' menu select=1        # 補完候補のカーソル選択を有効
+setopt list_packed                                  # 補完候補を詰めて表示
+
+setopt auto_cd           # ディレクトリ名で cd
+setopt autopushd         # cd 時に自動で push
+setopt pushd_ignore_dups # 同じディレクトリを pushd しない
+
+setopt correct           # スペルチェック
+
+# prompt
+# ブランチ名を色付きで表示させるメソッド
+function rprompt-git-current-branch {
+  local branch_name st branch_status
+
+  if [ ! -e  ".git" ]; then
+    # gitで管理されていないディレクトリは何も返さない
+    return
+  fi
+  branch_name=`git rev-parse --abbrev-ref HEAD 2> /dev/null`
+  st=`git status 2> /dev/null`
+  if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+    branch_status="%F{green}"
+  elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
+    branch_status="%F{red}?"
+  elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
+    branch_status="%F{red}+"
+  elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
+    branch_status="%F{yellow}!"
+  elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
+    echo "%F{red}!(no branch)"
+    return
+  else
+    branch_status="%F{blue}"
+  fi
+  echo "${branch_status}[$branch_name]" # ブランチ名を色付きで表示する
+}
+setopt prompt_subst # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
+
+RPROMPT='`rprompt-git-current-branch`'
+PROMPT='%F{yellow}%t%f %F{yellow}%n@%m%f %F{green}%~%f
+%# '

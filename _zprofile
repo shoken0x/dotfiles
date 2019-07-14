@@ -1,0 +1,44 @@
+export PATH="$HOME/.rbenv/bin:$PATH"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+export HISTTIMEFORMAT='%Y%m%d %T';
+export HISTCONTROL=ignoredups
+export HISTFILE=${HOME}/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=100000
+
+# for git diff-highlight
+export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
+
+export GOPATH=/Users/shoken/go
+export PATH=$GOPATH/bin:$PATH
+
+export MONGOPATH=/opt/mongodb
+export PATH=$MONGOPATH/bin:$PATH
+
+export QT_HOMEBREW=true
+export PATH="/usr/local/opt/qt/bin:$PATH"
+
+# export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+export ANDROID_HOME=/Users/shoken/Library/Android/sdk
+export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
+export REACT_EDITOR=vim
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# for aws-cli
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export AWS_CONFIG_FILE=~/.aws_access
+
+alias pong='perl -nle '\''print "display notification \"$_\" with title \"Terminal\""'\'' | osascript'
+alias mdfind='mdfind -onlyin ./ -name'
+#export LSCOLORS=gxfxcxdxbxegedabagacad
+export LSCOLORS=HxFxCxdxBxegedabagacad
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+alias ll='ls -lahG'
+alias be='bundle exec'
+alias rai='bundle exec rails s'
+alias rail='rai'
+alias git='/usr/local/bin/git'
+alias gp='/usr/local/bin/git grep'
