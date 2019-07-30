@@ -20,9 +20,9 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' # 大文字、小文字を�
 zstyle ':completion:*:default' menu select=1        # 補完候補のカーソル選択を有効
 setopt list_packed                                  # 補完候補を詰めて表示
 
-setopt auto_cd           # ディレクトリ名で cd
-setopt autopushd         # cd 時に自動で push
-setopt pushd_ignore_dups # 同じディレクトリを pushd しない
+#setopt auto_cd           # ディレクトリ名で cd
+#setopt autopushd         # cd 時に自動で push
+#setopt pushd_ignore_dups # 同じディレクトリを pushd しない
 
 setopt correct           # スペルチェック
 
