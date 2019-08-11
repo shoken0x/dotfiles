@@ -20,7 +20,7 @@ export PATH=$MONGOPATH/bin:$PATH
 export QT_HOMEBREW=true
 export PATH="/usr/local/opt/qt/bin:$PATH"
 
-# export PATH=$HOME/.nodebrew/current/bin:$PATH
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 export ANDROID_HOME=/Users/shoken/Library/Android/sdk
 export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
