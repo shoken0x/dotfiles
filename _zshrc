@@ -26,6 +26,11 @@ setopt list_packed                                  # 補完候補を詰めて�
 
 setopt correct           # スペルチェック
 
+# rm *で確認を求める機能を無効化する
+setopt RM_STAR_SILENT
+# コマンドライン実行時にもコメントを使えるようにする
+setopt INTERACTIVE_COMMENTS
+
 # prompt
 # ブランチ名を色付きで表示させるメソッド
 function rprompt-git-current-branch {
@@ -55,6 +60,35 @@ function rprompt-git-current-branch {
 }
 setopt prompt_subst # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
 
+function network-service {
+  services=$(networksetup -listnetworkserviceorder | grep 'Hardware Port')
+
+  while read line; do
+    sname=$(echo $line | awk -F  "(, )|(: )|[)]" '{print $2}')
+    sdev=$(echo $line | awk -F  "(, )|(: )|[)]" '{print $4}')
+    #echo "Current service: $sname, $sdev, $currentservice"
+    if [ -n "$sdev" ]; then
+      ifconfig $sdev 2>/dev/null | grep 'status: active' > /dev/null 2>&1
+      rc="$?"
+      if [ "$rc" -eq 0 ]; then
+        currentservice="$sname"
+        if [ "$currentservice" = "USB 10/100/1000 LAN" ]; then
+          currentservice="LAN `ifconfig $sdev | grep 'media:' | grep -o '(.*)' | sed -e 's/[()]//g' | awk '{print $1}'`"
+          break
+        else [ "$currentservice" = "Wi-Fi" ]
+          currentservice=`~/git/sandbox/src/sh/wifi`
+        fi
+      fi
+    fi
+  done <<< "$(echo "$services")"
+
+  if [ -n "$currentservice" ]; then
+    echo "$currentservice"
+  else
+    echo "No Network"
+  fi
+}
+
 RPROMPT='`rprompt-git-current-branch`'
-PROMPT='%F{yellow}%t%f %F{yellow}%n@%m%f %F{green}%~%f
+PROMPT='%F{blue}`network-service` %F{yellow}%t%f %F{yellow}%n@%m%f %F{green}%~%f
 %# '
