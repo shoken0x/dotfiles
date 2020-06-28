@@ -1,3 +1,9 @@
+# Java 12
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home"
+# Java 8
+export JAVA_HOME="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home"
+export PATH=${JAVA_HOME}/bin:${PATH}
+
 export PATH="$HOME/node_modules/.bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -5,8 +11,6 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export HISTTIMEFORMAT='%Y%m%d %T';
 export HISTCONTROL=ignoredups
 export HISTFILE=${HOME}/.zsh_history
-export HISTSIZE=10000
-export SAVEHIST=100000
 
 # for git diff-highlight
 export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
@@ -16,6 +20,9 @@ export PATH=$GOPATH/bin:$PATH
 
 export MONGOPATH=/opt/mongodb
 export PATH=$MONGOPATH/bin:$PATH
+
+export GOOGLECLOUDSDKPATH=/opt/google-cloud-sdk
+export PATH=$GOOGLECLOUDSDKPATH/bin:$PATH
 
 export QT_HOMEBREW=true
 export PATH="/usr/local/opt/qt/bin:$PATH"
@@ -42,4 +49,6 @@ alias be='bundle exec'
 alias rai='bundle exec rails s'
 alias rail='rai'
 alias git='/usr/local/bin/git'
-alias gp='/usr/local/bin/git grep'
+alias gr='/usr/local/bin/git grep'
+alias ls='/usr/local/bin/exa -lahG'
+export PATH="$HOME/.embulk/bin:$PATH"
