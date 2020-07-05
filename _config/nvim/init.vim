@@ -43,35 +43,16 @@ set nobackup
 "set guifont=Monaco:h12
 set guifont=Hack:h12
 
-" dein.vim
-" プラグインがインストールされるディレクトリ
-let s:dein_dir = expand('~/.cache/dein')
-" dein.vim 本体
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
-" dein.vim がなければ github から落としてくる
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+" init dein
+" % curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
+" % sh ./installer.sh ~/.cache/dein
+if &compatible
+  set nocompatible
 endif
-
-" 設定開始
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-
-  " プラグインリストを収めた TOML ファイル
-  " 予め TOML ファイルを用意しておく
-  let g:rc_dir    = expand("~/.config/nvim/")
-  let s:toml      = g:rc_dir . '/dein.toml'
-  " let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
-
-  " TOML を読み込み、キャッシュしておく
-  call dein#load_toml(s:toml,      {'lazy': 0})
-  " call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
-  " 設定終了
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
+  call dein#load_toml('~/.config/nvim/dein.toml', {'lazy': 0})
   call dein#end()
   call dein#save_state()
 endif
@@ -102,6 +83,7 @@ command -nargs=? G call GitGrep(<f-args>)
 endif
 autocmd QuickFixCmdPost *grep* cwindow
 
+let g:python_host_prog="/usr/bin/python"
 " Shougo/deoplete.nvim
 let g:python3_host_prog="/usr/local/bin/python3"
 let g:deoplete#enable_at_startup = 1
@@ -171,9 +153,10 @@ function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
 endfunction
 
-" for incsearch.vim
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
 let g:ruby_path = ""
+let g:ruby_host_prog="/Users/shoken/.rbenv/shims/neovim-ruby-host"
+let g:loaded_perl_provider = 0
+
+if has('nvim')
+  autocmd TermOpen term://* startinsert
+endif

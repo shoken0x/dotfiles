@@ -41,9 +41,6 @@ repo = 'Yggdroot/indentLine'
 repo = 'editorconfig/editorconfig-vim'
 
 [[plugins]]
-repo = 'haya14busa/incsearch.vim'
-
-[[plugins]]
 repo = 'Shougo/neomru.vim'
 on_path = '.*'
 
@@ -71,10 +68,3 @@ on_ft = ['javascript', 'javascript.jsx']
 [[plugins]]
 repo = 'pangloss/vim-javascript'
 on_ft = ['javascript', 'javascript.jsx']
-
-# gonvim
-## [[plugins]]
-## repo = 'equalsraf/neovim-gui-shim'
-##
-## [[plugins]]
-## repo = 'dzhou121/gonvim-fuzzy'
