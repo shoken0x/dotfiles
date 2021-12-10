@@ -63,7 +63,11 @@ repo = 'simeji/winresizer'
 # for JavaScript
 [[plugins]]
 repo = 'prettier/vim-prettier'
-on_ft = ['javascript', 'javascript.jsx']
+build    = 'npm install'
+on_ft    = ['javascript', 'typescript', 'json']
+hook_source = '''
+  autocmd BufWritePre *.js,*.ts,*.json PrettierAsync
+'''
 
 [[plugins]]
 repo = 'pangloss/vim-javascript'

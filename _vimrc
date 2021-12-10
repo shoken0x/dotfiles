@@ -53,6 +53,6 @@ set undodir=/home/fujisaki/.vim/undo
 filetype  plugin indent on
 syntax on
 set background=dark
-colorscheme lucario
+" colorscheme lucario
 " colorscheme solarized
 " let g:solarized_termcolors=256
