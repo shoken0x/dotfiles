@@ -1,0 +1,16 @@
+font-family = "MesloLGS Nerd Font Mono"
+# ペイン分割
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+
+# ペイン移動
+keybind = ctrl+option+h=goto_split:left
+keybind = ctrl+option+l=goto_split:right
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+k=goto_split:up
+
+# ペインリサイズ（40px単位）
+keybind = cmd+ctrl+left=resize_split:left,40
+keybind = cmd+ctrl+right=resize_split:right,40
+keybind = cmd+ctrl+up=resize_split:up,40
+keybind = cmd+ctrl+down=resize_split:down,40
