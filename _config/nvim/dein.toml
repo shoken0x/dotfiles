@@ -31,6 +31,9 @@ repo = 'mhartington/oceanic-next'
 [[plugins]] # Theme
 repo = 'joshdick/onedark.vim'
 
+[[plugins]] # Theme
+repo = 'folke/tokyonight.nvim'
+
 [[plugins]] # for Ruby
 repo = 'tpope/vim-endwise'
 

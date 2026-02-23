@@ -1,3 +1,4 @@
+export PATH="$HOME/.nodenv/shims:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
@@ -14,11 +15,6 @@ export PATH=$GOPATH/bin:$PATH
 
 export MONGOPATH=/opt/mongodb
 export PATH=$MONGOPATH/bin:$PATH
-
-export QT_HOMEBREW=true
-export PATH="/usr/local/opt/qt/bin:$PATH"
-
-# export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 export ANDROID_HOME=/Users/shoken/Library/Android/sdk
 export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
@@ -37,8 +33,6 @@ alias ll='ls -lahG'
 alias be='bundle exec'
 alias rai='bundle exec rails s'
 alias rail='rai'
-alias git='/usr/local/bin/git'
-alias gp='/usr/local/bin/git grep'
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then

@@ -5,3 +5,4 @@ ln -s ~/git/dotfiles/_irbrc ~/.irbrc
 ln -s ~/git/dotfiles/_gemrc ~/.gemrc
 ln -s ~/git/dotfiles/_vimrc ~/.vimrc
 ln -s ~/git/dotfiles/_config ~/.config
+ln -s ~/git/dotfiles/_p10k.zsh ~/.p10k.zsh
