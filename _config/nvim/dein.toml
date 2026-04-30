@@ -75,3 +75,53 @@ hook_source = '''
 [[plugins]]
 repo = 'pangloss/vim-javascript'
 on_ft = ['javascript', 'javascript.jsx']
+
+[[plugins]] # Theme
+repo = 'catppuccin/nvim'
+name = 'catppuccin'
+hook_add = '''
+lua << EOF
+  require("catppuccin").setup({
+      flavour = "macchiato", -- ここで mocha フレーバーを指定します (他に latte, frappe, macchiato があります)
+      transparent_background = true,
+
+      -- その他、各種UIプラグイン（LualineやTelescopeなど）の統合設定をここに追加できます
+      integrations = {
+          nvimtree = true,
+          telescope = true,
+          mason = true,
+          -- lualine = true,
+      }
+  })
+EOF
+'''
+
+[[plugins]]
+repo = 'xiyaowong/transparent.nvim'
+hook_add = '''
+lua << EOF
+  require("transparent").setup({
+    -- 基本的なエディタの背景（Normal, LineNr, StatusLineなど）はデフォルトで透過されます。
+    -- ここには「追加で透過したい」ハイライトグループを指定します。
+    extra_groups = {
+      "NormalFloat",     -- MasonやLazy、LspInfoなどのフローティングウィンドウパネル
+      "FloatBorder",     -- フローティングウィンドウの境界線
+      "NvimTreeNormal",  -- NvimTreeの背景
+      "NeoTreeNormal",   -- Neo-treeの背景
+      "NeoTreeNormalNC",
+      "TelescopeNormal", -- Telescopeの背景
+      "TelescopeBorder", -- Telescopeの境界線
+    },
+
+    -- 逆に、透過させたくないグループがある場合はここに指定します
+    exclude_groups = {},
+  })
+
+  -- 【応用設定】
+  -- lualineやbufferlineなど、動的にハイライト（アイコンの色など）を生成するUIプラグインの
+  -- 背景も完全に透過させたい場合は、以下の `clear_prefix` を有効に（コメントアウトを解除）してください。
+  -- require('transparent').clear_prefix('lualine')
+  -- require('transparent').clear_prefix('BufferLine')
+  -- require('transparent').clear_prefix('NeoTree')
+EOF
+'''

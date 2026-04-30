@@ -119,7 +119,7 @@ syntax enable
 " colorscheme seoul256
 
 "" Theme OceanicNext
-colorscheme OceanicNext
+" colorscheme OceanicNext
 
 "" Theme onedark
 " colorscheme onedark
@@ -129,6 +129,9 @@ colorscheme OceanicNext
 
 "" Theme tokyonight
 " colorscheme tokyonight-day
+
+"" Theme Catppuccin (macchiato)
+colorscheme catppuccin
 
 highlight CursorLine cterm=NONE guibg=#444444
 highlight Search ctermfg=15 ctermbg=68 guifg=#ffffff guibg=#6699cc

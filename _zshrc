@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # overwrite /etc/zshrc
 export HISTSIZE=10000
 export SAVEHIST=100000
@@ -18,8 +11,10 @@ setopt share_history      # プロセスごとに履歴を共有
 
 # 履歴補完
 # autoload -Uz predict-on && predict-on
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
+# syntax highlight
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # コマンド補完
 autoload -Uz compinit && compinit
@@ -41,80 +36,6 @@ setopt RM_STAR_SILENT
 # コマンドライン実行時にもコメントを使えるようにする
 setopt INTERACTIVE_COMMENTS
 
-# prompt
-# Powerlevel10k の本体を読み込む
-source ~/Git/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# ブランチ名を色付きで表示させるメソッド
-# function rprompt-git-current-branch {
-#   local branch_name st branch_status
-#
-#   if [ ! -e  ".git" ]; then
-#     # gitで管理されていないディレクトリは何も返さない
-#     return
-#   fi
-#   branch_name=`git rev-parse --abbrev-ref HEAD 2> /dev/null`
-#   st=`git status 2> /dev/null`
-#   if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-#     branch_status="%F{green}"
-#   elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
-#     branch_status="%F{red}?"
-#   elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
-#     branch_status="%F{red}+"
-#   elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
-#     branch_status="%F{yellow}!"
-#   elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
-#     echo "%F{red}!(no branch)"
-#     return
-#   else
-#     branch_status="%F{blue}"
-#   fi
-#   echo "${branch_status}[$branch_name]" # ブランチ名を色付きで表示する
-# }
-# setopt prompt_subst # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
-#
-# function network-service {
-#   services=$(networksetup -listnetworkserviceorder | grep 'Hardware Port')
-#
-#   while read line; do
-#     sname=$(echo $line | awk -F  "(, )|(: )|[)]" '{print $2}')
-#     sdev=$(echo $line | awk -F  "(, )|(: )|[)]" '{print $4}')
-#     # echo "sname: $sname, $sdev"
-#     if [ -n "$sdev" ]; then
-#       ifconfig $sdev 2>/dev/null | grep 'status: active' > /dev/null 2>&1
-#       rc="$?"
-#       if [ "$rc" -eq 0 ]; then
-#         currentservice="$sname"
-#         if [ "$currentservice" = "USB 10/100/1000 LAN" ]; then
-#           currentservice="LAN `ifconfig $sdev | grep 'media:' | grep -o '(.*)' | sed -e 's/[()]//g' | awk '{print $1}'`"
-#           break
-#         elif [ "$currentservice" = "USB 10/100/1G/2.5G LAN" ]; then
-#           currentservice="LAN `ifconfig $sdev | grep 'media:' | grep -o '(.*)' | sed -e 's/[()]//g' | awk '{print $1}'`"
-#           break
-#         elif [ "$currentservice" = "Thunderbolt Ethernet Slot 1" ]; then
-#           currentservice="Thunderbolt Eth `ifconfig $sdev | grep 'media:' | grep -o '(.*)' | sed -e 's/[()]//g' | awk '{print $1}'`"
-#           break
-#         else [ "$currentservice" = "Wi-Fi" ]
-#           # currentservice=`~/git/sandbox/src/sh/wifi`
-#           currentservice="Wi-Fi"
-#         fi
-#       fi
-#     fi
-#   done <<< "$(echo "$services")"
-#
-#   if [ -n "$currentservice" ]; then
-#     echo "$currentservice"
-#   else
-#     echo "No Network"
-#   fi
-# }
-#
-# RPROMPT='`rprompt-git-current-branch`'
-# PROMPT='%F{blue}`network-service` %F{yellow}%t%f %F{yellow}%n@%m%f %F{green}%~%f
-# %# '
-# prompt end
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/shoken/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/shoken/google-cloud-sdk/path.zsh.inc'; fi
 
@@ -125,73 +46,154 @@ if [ -f ~/.zshrc.local ]; then
 source ~/.zshrc.local
 fi
 
-# Added by Antigravity
-export PATH="/Users/shoken/.antigravity/antigravity/bin:$PATH"
+# History search
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+# Ctrl+P でさかのぼる (Previous)
+bindkey "^P" up-line-or-beginning-search
+# Ctrl+N で進む (Next)
+bindkey "^N" down-line-or-beginning-search
+
+# Starship
+eval "$(starship init zsh)"
 
 # Ghosttyターミナル開発レイアウト
 # 使い方: tcode [ディレクトリ]
 # 左上: yazi, 左下: keifu, 右: claude-code
+
 tcode() {
-local target_dir="${1:-$(pwd)}"
+  local target_dir="${1:-$(pwd)}"
 
-local cmd_yazi="cd ${target_dir} && yazi"
-local cmd_keifu="cd ${target_dir} && keifu"
-local cmd_claude="cd ${target_dir} && claude"
+  local cmd_yazi="cd ${target_dir} && yazi"
+  local cmd_keifu="cd ${target_dir} && keifu"
+  local cmd_claude="cd ${target_dir} && claude"
+  local cmd_dir="cd ${target_dir}"
 
-osascript \
-  -e 'on run argv' \
-  -e '    set cmd_yazi to item 1 of argv' \
-  -e '    set cmd_keifu to item 2 of argv' \
-  -e '    set cmd_claude to item 3 of argv' \
-  -e '    tell application "Ghostty" to activate' \
-  -e '    tell application "System Events"' \
-  -e '        tell process "Ghostty"' \
-  -e '            -- 1. 縦分割 (Rightペイン作成)' \
-  -e '            keystroke "d" using command down' \
-  -e '            delay 0.25' \
-  -e '            -- 2. 左ペインに戻る (ctrl+option+h)' \
-  -e '            key code 4 using {control down, option down}' \
-  -e '            delay 0.1' \
-  -e '            -- 左上ペイン: yazi実行' \
-  -e '            set the clipboard to cmd_yazi' \
-  -e '            keystroke "v" using command down' \
-  -e '            keystroke return' \
-  -e '            delay 0.4' \
-  -e '            -- 3. 横分割 (Bottom-Leftペイン作成)' \
-  -e '            keystroke "d" using {command down, shift down}' \
-  -e '            delay 0.25' \
-  -e '            -- 左下ペイン: keifu実行' \
-  -e '            set the clipboard to cmd_keifu' \
-  -e '            keystroke "v" using command down' \
-  -e '            keystroke return' \
-  -e '            delay 0.15' \
-  -e '            -- 4. 右ペインに移動 (ctrl+option+l)' \
-  -e '            key code 37 using {control down, option down}' \
-  -e '            delay 0.1' \
-  -e '            -- 右ペイン: claude実行' \
-  -e '            set the clipboard to cmd_claude' \
-  -e '            keystroke "v" using command down' \
-  -e '            keystroke return' \
-  -e '            delay 0.2' \
-  -e '            -- 5. サイズ調整: 左ペインを狭くする (cmd+ctrl+left を 右ペインで実行)' \
-  -e '            -- configにて40px単位になっているため、回数を減らして調整' \
-  -e '            repeat 6 times' \
-  -e '                key code 123 using {command down, control down}' \
-  -e '            end repeat' \
-  -e '            -- 左上ペインに移動 (ctrl+option+h, ctrl+shift+k)' \
-  -e '            key code 4 using {control down, option down}' \
-  -e '            delay 0.1' \
-  -e '            -- k は key code 40' \
-  -e '            key code 40 using {control down, shift down}' \
-  -e '            delay 0.1' \
-  -e '            -- 左上ペインを大きくする (cmd+ctrl+down を実行)' \
-  -e '            repeat 2 times' \
-  -e '                key code 125 using {command down, control down}' \
-  -e '            end repeat' \
-  -e '            -- 右ペインに戻る (ctrl+option+l)' \
-  -e '            key code 37 using {control down, option down}' \
-  -e '        end tell' \
-  -e '    end tell' \
-  -e 'end run' \
-  -- "${cmd_yazi}" "${cmd_keifu}" "${cmd_claude}"
+  # ヒアドキュメントを使用して AppleScript を実行
+  # 変数展開を有効にするため EOF はクォートしない
+  osascript <<EOF
+    on run
+        set cmd_yazi to "${cmd_yazi}"
+        set cmd_keifu to "${cmd_keifu}"
+        set cmd_claude to "${cmd_claude}"
+        set cmd_dir to "${cmd_dir}"
+
+        tell application "Ghostty" to activate
+        tell application "System Events"
+            tell process "Ghostty"
+                -- 1. 縦分割 (Rightペイン作成)
+                keystroke "d" using command down
+                delay 0.25
+
+                -- 2. 左ペインに戻る (ctrl+option+h)
+                key code 4 using {control down, option down}
+                delay 0.1
+
+                -- 左上ペイン: yazi実行
+                set the clipboard to cmd_yazi
+                keystroke "v" using command down
+                keystroke return
+                delay 0.4
+
+                -- 3. 横分割 (Bottom-Leftペイン作成)
+                keystroke "d" using {command down, shift down}
+                delay 0.25
+
+                -- 左下ペイン: keifu実行
+                set the clipboard to cmd_keifu
+                keystroke "v" using command down
+                keystroke return
+                delay 0.15
+
+                -- 4. 右ペインに移動 (ctrl+option+l)
+                key code 37 using {control down, option down}
+                delay 0.1
+
+                -- 右上ペイン: claude実行
+                set the clipboard to cmd_claude
+                keystroke "v" using command down
+                keystroke return
+                delay 0.2
+
+                -- 5. 右ペインをさらに横分割 (Bottom-Rightペイン作成)
+                keystroke "d" using {command down, shift down}
+                delay 0.25
+
+                -- 右下ペイン: ディレクトリ移動実行
+                set the clipboard to cmd_dir
+                keystroke "v" using command down
+                keystroke return
+                delay 0.1
+
+                -- 6. サイズ調整: 左側を狭くする
+                repeat 6 times
+                    key code 123 using {command down, control down}
+                end repeat
+
+                -- 左上ペインに移動して高さを調整
+                key code 4 using {control down, option down}
+                delay 0.1
+                key code 40 using {control down, shift down}
+                delay 0.1
+                repeat 2 times
+                    key code 125 using {command down, control down}
+                end repeat
+
+                -- 最後に右下のコンソールに戻る
+                key code 37 using {control down, option down}
+                delay 0.1
+                key code 38 using {control down, shift down}
+            end tell
+        end tell
+    end run
+EOF
 }
+
+# bun completions
+[ -s "/Users/shoken/.bun/_bun" ] && source "/Users/shoken/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# delphinus/claude-code-hooks
+export CLAUDE_OBSIDIAN_VAULT="/Users/shoken/Library/CloudStorage/Dropbox/sync_docs/Synced Obsidian Vault"
+
+# fzf https://namileriblog.com/mac/fzf/
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+export FZF_DEFAULT_COMMAND='
+rg --files --no-ignore --hidden --follow
+'
+export FZF_DEFAULT_OPTS="
+--multi --border=rounded --height 85% --layout=reverse
+--marker ▏ --pointer ▌ --prompt ▌
+--info=inline --header=\"fzf version: $(fzf --version)\" --header-first
+--preview \"bat --style=numbers --color=always {}\"
+--preview-window=down,50%,wrap
+--color=border:#b4befe,fg:#a9b1d6,fg+:#a6e3a1,hl:#f5c2e7,hl+:#89b4fa,bg+:#11111b,pointer:#f38ba8,prompt:#89dceb,info:#b4befe,header:#a6e3a1,scrollbar:#eba0ac,preview-scrollbar:#eba0ac,preview-border:#89dceb
+"
+export FZF_ALT_C_COMMAND='fd --type d'
+export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --color=always {} | head -200'"
+export FZF_CTRL_T_COMMAND='
+  rg --files --no-ignore --hidden --follow \
+  --glob "!{.git,.cache,Library,Downloads,Movies,.DS_Store,.zsh_sessions, Music, Applications (Parallels) , .pyenv}/**"
+'
+export FZF_CTRL_T_OPTS="
+  --preview 'bat -n --color=always {}'
+  --bind '?:toggle-preview'
+"
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window up:3:hidden:wrap
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'
+"
+
+# AIエージェントがBash実行時にzoxideのWarningが出る対応
+export _ZO_DOCTOR=0
+# zoxide enable cd, cdi
+eval "$(zoxide init zsh --cmd cd)"

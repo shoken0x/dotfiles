@@ -51,3 +51,9 @@
 	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [init]
 	templateDir = /Users/shoken/.git-templates/git-secrets
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential

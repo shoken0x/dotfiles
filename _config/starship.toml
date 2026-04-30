@@ -1,0 +1,43 @@
+# プロンプトの全体フォーマット（1行目・2行目と背景色）
+format = """
+[ $time ](bg:236 fg:6)\
+[ / $directory ](bg:236 fg:6)\
+$git_branch\
+$git_status\
+[](fg:236)\n\
+$character"""
+
+# 時刻
+[time]
+disabled = false
+time_format = "%T"
+format = "$time"
+
+# ディレクトリパス
+[directory]
+format = "$path"
+truncation_length = 0
+
+# Gitブランチ名
+[git_branch]
+format = "[ / $branch(:$remote_branch) ](bg:236 fg:3)"
+
+# Gitステータス
+[git_status]
+format = "[$all_status ](bg:236 fg:3)"
+conflicted = "~$count "
+ahead = "⇡$count "
+behind = "⇣$count "
+diverged = "⇕$count "
+up_to_date = ""
+untracked = "?$count "
+stashed = "*$count "
+modified = "!$count "
+staged = "+$count "
+renamed = "»$count "
+deleted = "✘$count "
+
+# 入力プロンプト記号 (%)
+[character]
+success_symbol = "[%](bold green)"
+error_symbol = "[%](bold red)"

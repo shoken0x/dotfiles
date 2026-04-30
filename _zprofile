@@ -37,8 +37,12 @@ export ANDROID_HOME=/Users/shoken/Library/Android/sdk
 export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
 export REACT_EDITOR=vim
 export PATH="$HOME/.cargo/bin:$PATH"
-
 export PATH="$HOME/.local/bin:$PATH"
+
+export DOCKER_HOST="unix:///Users/shoken/.colima/default/docker.sock"
+
+# 単語の区切り文字をリセット（パスの / やドット . で削除が止まるようになる）
+export WORDCHARS=''
 
 # Load secret tokens from local unversioned file if it exists
 if [ -f ~/.zshrc.local ]; then
@@ -48,6 +52,7 @@ fi
 # for aws-cli
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+# export EDITOR=vim
 export AWS_CONFIG_FILE=~/.aws_access
 
 alias pong='perl -nle '\''print "display notification \"$_\" with title \"Terminal\""'\'' | osascript'
@@ -55,11 +60,15 @@ alias mdfind='mdfind -onlyin ./ -name'
 #export LSCOLORS=gxfxcxdxbxegedabagacad
 export LSCOLORS=HxFxCxdxBxegedabagacad
 export LS_COLORS='di=97:ln=35:so=32:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=97'
-alias ll='\ls -lahG'
-alias ls='\ls -lahG'
+# alias ls='\ls -lahG'
+# alias ll='ls'
 alias be='bundle exec'
-alias rai='bundle exec rails s'
-alias rail='rai'
-alias git='/opt/homebrew/bin/git'
 alias gr='/opt/homebrew/bin/git grep'
-alias python='/opt/homebrew/bin/python3.10'
+alias ls="eza --icons --git --no-user"
+alias ll="eza -lah --icons --git --no-user"
+alias tree="eza --tree --icons"
+alias cat="bat"
+alias rgr="rg"
+alias find="fd"
+alias ghpr='gh prism "$(gh pr list | fzf --preview "gh pr view {1}" | awk "{print \$1}")"'
+alias ccd="claude --dangerously-skip-permissions"

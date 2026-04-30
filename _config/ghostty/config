@@ -1,16 +1,70 @@
-font-family = "MesloLGS Nerd Font Mono"
-# ペイン分割
-keybind = cmd+d=new_split:right
-keybind = cmd+shift+d=new_split:down
+# Theme
+# ghostty +list-themes
+# # Theme
+# ghostty +list-themes
+theme = "Catppuccin Macchiato"
+# theme = iceberg-dark
 
-# ペイン移動
-keybind = ctrl+option+h=goto_split:left
-keybind = ctrl+option+l=goto_split:right
+# # Font
+# font-family = "HackGen Console NF"
+# font-family = "UDEV Gothic NF Console"
+# font-family = "MesloLGS Nerd Font Mono"
+# font-family = "HackGen"
+# font-family = "UDEV Gothic"
+font-family = "Moralerspace Neon"
+font-family = "Symbols Nerd Font Mono" # icon用にフォールバック
+adjust-icon-height = 10%
+adjust-cell-height = 10%
+
+# Moralerspace
+# - Neon 標準的な等幅最もフラットでモダン
+# - Argon表現力豊か少し表情がある（セリフ体に近い）
+# - Xenonクラシック知的な印象
+# - Radon手書き風（等幅）少し柔らかい（ただし手書きすぎない）
+# - Krypton幾何学的ハイテク・SFっぽい
+
+
+# # Window size
+window-height = 200
+window-width = 180
+
+# # Pane
+# Split
+keybind = cmd+d=new_split:right
+keybind = cmd+f=new_split:left
+keybind = cmd+shift+d=new_split:down
+keybind = cmd+shift+f=new_split:up
+
+# Move
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+l=goto_split:right
 keybind = ctrl+shift+j=goto_split:down
 keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+w>w=goto_split:next
+keybind = ctrl+w>p=goto_split:previous
 
-# ペインリサイズ（40px単位）
+# Resize
 keybind = cmd+ctrl+left=resize_split:left,40
 keybind = cmd+ctrl+right=resize_split:right,40
 keybind = cmd+ctrl+up=resize_split:up,40
 keybind = cmd+ctrl+down=resize_split:down,40
+
+# # View
+unfocused-split-opacity = 0.85
+split-divider-color = "#555555"
+window-padding-x = 10
+window-padding-y = 10
+
+macos-titlebar-proxy-icon = hidden
+# macos-titlebar-style = transparent # default transparent
+# macos-titlebar-style = hidden
+
+background-opacity = 0.8
+background-blur-radius = 20
+
+# fullscreen = "false"
+macos-non-native-fullscreen = "false"
+
+scrollback-limit = 10000000
+mouse-hide-while-typing = true
+window-save-state = always
