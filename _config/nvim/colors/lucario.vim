@@ -1,1 +1,0 @@
-/Users/shoken/git/lucario/colors/lucario.vim
