@@ -4,3 +4,18 @@ _config/ghkw/
 _config/gcloud/
 _config/gh/
 .serena/
+
+# Claude Code: 実行時データは絶対に入れない（会話ログ・認証・DB・キャッシュ）
+_claude/**/__pycache__/
+_claude/**/*.bak*
+_claude/toolstats/*.db
+_claude/toolstats/state/
+
+# 🔴 実在の GCP サービスアカウント鍵（private_key を含む）。このリポジトリは PUBLIC。
+#    ~/.config が _config への symlink なので、ツールが書いた認証情報がここに現れる。
+#    `git add -A` で一発で公開されるため、パスごと除外する。
+_config/glimpse/
+
+# ツールが実行時に書くデータ（セッション・ベクタ索引・ツール呼び出しログ）。
+# bm25_index.json には索引化された本文が入り、秘密値を含みうる（実測でヒット）。
+_config/lean-ctx/
