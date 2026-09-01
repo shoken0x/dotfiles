@@ -29,7 +29,3 @@ Temporary Items
 .apdisk
 
 **/.claude/settings.local.json
-
-# Tool caches and local DBs
-_config/zed/prompts/
-_config/cagent/

@@ -14,6 +14,8 @@ _claude/toolstats/state/
 # 各種ツールの実行時データ（キャッシュ・ロック・アプリ状態）。
 # ツールが ~/.config へ書き戻すので、除外しないと再び作業ツリーに現れる。
 _config/notion/cache.json
+_config/cagent/
+_config/zed/prompts/
 _config/1Password/
 _config/opencode/
 _config/openlogi/
