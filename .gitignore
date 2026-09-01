@@ -10,9 +10,3 @@ _claude/**/__pycache__/
 _claude/**/*.bak*
 _claude/toolstats/*.db
 _claude/toolstats/state/
-
-# 🔴 ~/.config はこのリポジトリの _config への symlink なので、ツールが書いた認証情報が
-#    ここに現れ、`git add -A` 一発で公開される。実際に _config/glimpse/bq-reader-sa.json
-#    （GCP サービスアカウント鍵）が置かれていた。鍵は ~/.gcloud/ へ退避済みだが、
-#    ツールが再作成しうるのでパスごと除外し続ける。
-_config/glimpse/
