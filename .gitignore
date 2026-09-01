@@ -15,7 +15,5 @@ _claude/toolstats/state/
 # ツールが ~/.config へ書き戻すので、除外しないと再び作業ツリーに現れる。
 _config/notion/cache.json
 _config/1Password/
-_config/cmux/cmux.json
-_config/mcphub/
 _config/opencode/
 _config/openlogi/
