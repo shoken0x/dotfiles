@@ -10,3 +10,8 @@ _claude/**/__pycache__/
 _claude/**/*.bak*
 _claude/toolstats/*.db
 _claude/toolstats/state/
+
+# 各種ツールの実行時データ（キャッシュ・ロック・バックアップ）
+_config/notion/cache.json
+_config/openlogi/openlogi.lock
+_config/opencode/*.bak

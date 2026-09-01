@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "codegraph-rust": {
+      "args": [
+        "serve"
+      ],
+      "command": "/Users/shoken/.codegraph/bin/codegraph-rust"
+    }
+  }
+}

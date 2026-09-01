@@ -1,0 +1,10 @@
+schema_version = 1
+
+[app_settings]
+launch_at_login = false
+check_for_updates = true
+update_prompt_seen = true
+show_in_menu_bar = true
+language = "ja"
+
+[devices]
