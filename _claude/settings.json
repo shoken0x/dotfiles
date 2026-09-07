@@ -292,7 +292,8 @@
     "claude-md-management@claude-plugins-official": true,
     "obsidian@obsidian-skills": true,
     "show-me@skills": true,
-    "pr-review-toolkit@claude-plugins-official": true
+    "pr-review-toolkit@claude-plugins-official": true,
+    "marketing-skills@marketingskills": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
@@ -323,6 +324,12 @@
       "source": {
         "source": "github",
         "repo": "anthropics/claude-plugins-community"
+      }
+    },
+    "marketingskills": {
+      "source": {
+        "source": "github",
+        "repo": "coreyhaines31/marketingskills"
       }
     }
   },
