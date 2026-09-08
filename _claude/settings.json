@@ -335,7 +335,7 @@
   },
   "outputStyle": "explanatory",
   "effortLevel": "xhigh",
-  "tui": "default",
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "editorMode": "vim",
   "remoteControlAtStartup": true,
