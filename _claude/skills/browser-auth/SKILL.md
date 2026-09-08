@@ -225,6 +225,21 @@ gcloud auth list --format="table(account,status)"
 
 ## つまずいた点
 
+- **Radix / shadcn の Select は `text=` セレクタが効かない。** 選択肢のテキストは画面外の native `<select>` の
+  `<option>` にも存在し、`text=` はそちらに先に当たって "element is not visible" でタイムアウトする。
+  ドロップダウンを開いてから **`[role="option"]:has-text("...")`** で指す。チェックボックスは
+  `<button role="checkbox">` 本体でなく **`label[for="..."]`** をクリックする（2026-09-08 Supabase で実測）。
+- **react-select の検索ボックスは placeholder が別要素。** `input[placeholder=...]` は当たらない。
+  `#react-select-N-input` に `type` して、絞り込まれた候補が focused になったら `press Enter`（2026-09-08 Sentry）。
+- **Cloudflare Turnstile はこの自動操作ブラウザで読み込みに失敗する**（"Error loading captcha"）。
+  再読み込みでは直らない。ログインが Turnstile 必須のサイト（SendGrid）は**ユーザーの通常ブラウザに切り替える**。
+- **ドライバは外部 SIGTERM で落ちることがある**（`terminated: closing browser cleanly`。別セッションが同じ skill を
+  起動した直後に2回発生）。profile にセッションは残るので、同じ `--profile` で再起動すれば再ログイン不要。
+  起動時に `cmd.jsonl` は消えるので、未実行の op は再投入する。
+- **課金画面に入る前に既存契約を見る。** Sentry は `/organizations/new/` を開くと新規作成フォームが出るが、
+  `/organizations/` に行くと**既存 org にリダイレクト**され、アカウントが既に org を持っていることが分かる
+  （2026-09-08: 新規作成が Internal Error になった原因調査より先にこれで判明した）。
+
 - **`ntn` などの CLI に `-d @file.json` を渡すとき、stdin が繋がっていると stdin を優先する。**
   `while read` ループの中や、Python の `subprocess` から呼ぶと stdin 待ちで固まる。
   `< /dev/null` を付ける。ブラウザ操作とは別件だが、同じ「常駐＋コマンド投入」の型で踏む。

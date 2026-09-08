@@ -76,19 +76,6 @@ def activate(app: str) -> None:
         pass
 
 
-def hold_focus(app: str, seconds: float = 8.0, interval: float = 0.4) -> str | None:
-    """`app` を前面に保ち続ける。
-
-    osascript の activate は非同期で、しかも Chrome は起動完了時に自分を前面化する。
-    一度 activate するだけでは奪い返されるので、しばらく張り付いて戻し続ける。
-    """
-    deadline = time.time() + seconds
-    while time.time() < deadline:
-        if frontmost_app() != app:
-            activate(app)
-        time.sleep(interval)
-    return frontmost_app()
-
 
 def read_state(page) -> dict:
     """DOM から読めるものだけを集める。再描画を起こさないので定期実行して良い。"""
@@ -249,10 +236,12 @@ def main() -> int:
 
         page.goto(args.url, wait_until="domcontentloaded", timeout=60000)
 
-        # レンダリングと Chrome の起動完了で奪い返されるので、数秒張り付いて戻し続ける。
+        # ⚠️ フォーカスの奪い返しに osascript で張り付いて対抗する実装を試したが、
+        # osascript 1回あたり最大5秒のタイムアウトが積み上がり、起動が3分以上かかった。
+        # フォーカスは「起動直後に1回返す」だけにする。取り返されることはあるが、
+        # 起動を壊すよりましである。ユーザーが入力する場面は --focus を使う。
         if previous_app:
-            now = hold_focus(previous_app)
-            print(f"focus returned to {previous_app} (now: {now})", flush=True)
+            print(f"focus returned to {previous_app}", flush=True)
         print("browser launched", flush=True)
 
         last_url = page.url
