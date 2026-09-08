@@ -68,3 +68,9 @@ macos-non-native-fullscreen = "false"
 scrollback-limit = 10000000
 mouse-hide-while-typing = true
 window-save-state = always
+
+# # Clipboard
+# 選択しただけでシステムクリップボードへコピーする。
+# macOS には selection clipboard が無いので、true だと cmd+v で貼れない。
+# clipboard にするとシステムクリップボード（cmd+v / pbpaste）にも入る。
+copy-on-select = clipboard
