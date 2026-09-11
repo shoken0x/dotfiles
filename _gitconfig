@@ -1,6 +1,7 @@
-[user]
-	name = shoken
-	email = shoken@kitchhike.com
+[include]
+	# 個人を特定する値（氏名・メール）はこの PUBLIC リポジトリに置かない。
+	# ~/.gitconfig.local に [user] name / email を書く（ln_commands.sh 参照）。
+	path = ~/.gitconfig.local
 [color]
     ui = auto
 [core]

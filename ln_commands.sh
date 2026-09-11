@@ -22,6 +22,16 @@ done
 ln -s ~/git/dotfiles/_claude/skills/diagram-craft   ~/.claude/skills/diagram-craft
 ln -s ~/git/dotfiles/_claude/skills/supacode-cli    ~/.claude/skills/supacode-cli
 
+# --- git identity ---
+# 氏名・メールは PUBLIC のこのリポジトリに置かず、追跡しない ~/.gitconfig.local に置く
+# （_gitconfig が [include] で読み込む）。作らないと author 未設定でコミットできない。
+cat > ~/.gitconfig.local <<'GITID'
+[user]
+	name = shoken
+	email = <自分のメールアドレス>
+GITID
+chmod 600 ~/.gitconfig.local
+
 # --- git-secrets ---
 # _gitconfig の [init] templateDir が指すテンプレートを実際に作る。
 # 🔴 symlink では足りない。テンプレートは git-secrets 本体が生成するものなので、
