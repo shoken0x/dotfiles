@@ -21,3 +21,18 @@ for f in classify.py collect.py db.py hook.sh report.py selftest.sh test_classif
 done
 ln -s ~/git/dotfiles/_claude/skills/diagram-craft   ~/.claude/skills/diagram-craft
 ln -s ~/git/dotfiles/_claude/skills/supacode-cli    ~/.claude/skills/supacode-cli
+
+# --- git-secrets ---
+# _gitconfig の [init] templateDir が指すテンプレートを実際に作る。
+# 🔴 symlink では足りない。テンプレートは git-secrets 本体が生成するものなので、
+#    このリポジトリには入っておらず、新しいマシンでは必ずここを踏む。
+# 作られていないと 2つ壊れる:
+#   1. git clone / git init のたびに
+#      "warning: templates not found in ~/.git-templates/git-secrets" が出る
+#   2. git 既定のテンプレートが使われなくなり、**.git/hooks が作られない**
+#      （= git-secrets の pre-commit も入らず、秘密情報の検査が一切効かない）
+brew install git-secrets
+git secrets --install ~/.git-templates/git-secrets
+
+# ⚠️ templateDir が効くのは `git init` / `git clone` のときだけ。
+#    既にクローン済みのリポジトリには各々で入れる:  cd <repo> && git secrets --install
