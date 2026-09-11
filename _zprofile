@@ -46,6 +46,8 @@ export DOCKER_HOST="unix:///Users/shoken/.colima/default/docker.sock"
 # 単語の区切り文字をリセット（パスの / やドット . で削除が止まるようになる）
 export WORDCHARS=''
 
+export ANTHROPIC_DEFAULT_MODEL="opus[1m]"
+
 
 # Load secret tokens from local unversioned file if it exists
 if [ -f ~/.zshrc.local ]; then
@@ -75,7 +77,7 @@ alias rgr='rg'
 alias find='fd'
 alias ghpr='gh prism "$(gh pr list | fzf --preview "gh pr view {1}" | awk "{print \$1}")"'
 alias ccd='claude update; claude --dangerously-skip-permissions'
-alias agyd='agy --dangerously-skip-permissions'
+alias agyd='agy update;agy --dangerously-skip-permissions'
 alias codegraph='codegraph-rust'
 
 # claude plugin 一括更新: marketplace 情報を更新してから user スコープの全 plugin を更新する。
