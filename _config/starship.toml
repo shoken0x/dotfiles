@@ -23,12 +23,12 @@ truncation_length = 0
 # Gitブランチ名
 [git_branch]
 disabled = false
-format = "[ / $branch(:$remote_branch) ](bg:236 fg:3)"
+format = "[ / $branch(:$remote_branch) ](bg:236 fg:#D3BB57)"
 
 # Gitステータス
 [git_status]
 disabled = false
-format = "[$all_status ](bg:236 fg:3)"
+format = "[$all_status ](bg:236 fg:#D3BB57)"
 conflicted = "~$count "
 ahead = "⇡$count "
 behind = "⇣$count "
