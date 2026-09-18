@@ -4,7 +4,7 @@ NOW=$(date +%s)
 
 # --- ANSIカラー ---
 CYAN='\033[36m' YELLOW='\033[38;2;211;187;87m' RED='\033[38;2;210;138;141m'
-GREEN='\033[32m' MAGENTA='\033[35m' DIM='\033[2m' RESET='\033[0m'
+GREEN='\033[32m' DIM='\033[2m' RESET='\033[0m'
 
 # --- ユーティリティ関数 ---
 
@@ -96,9 +96,7 @@ if git -C "$CWD" rev-parse --git-dir > /dev/null 2>&1; then
   BRANCH=$(git -C "$CWD" --no-optional-locks branch --show-current 2>/dev/null)
   WORKTREE_NAME=$(basename "$(git -C "$CWD" rev-parse --show-toplevel 2>/dev/null)")
   if [ -n "$BRANCH" ]; then
-    BRANCH_COLOR="$MAGENTA"
-    [ "$BRANCH" = "main" ] && BRANCH_COLOR="$RED"
-    GIT_BRANCH=" | ${BRANCH_COLOR}${BRANCH}${RESET} ${DIM}(${WORKTREE_NAME})${RESET}"
+    GIT_BRANCH=" | ${RED}${BRANCH}${RESET} ${DIM}(${WORKTREE_NAME})${RESET}"
   fi
 fi
 
