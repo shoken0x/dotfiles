@@ -164,6 +164,16 @@ def run_command(page, cmd: dict, out: Path, shoot) -> None:
         target = out / cmd.get("file", "dom.html")
         target.write_text(page.inner_html(cmd.get("selector", "body")))
         print(f"html written: {target.name} ({len(target.read_text())} chars)", flush=True)
+    elif op == "download":
+        # ダウンロードを伴うクリック。秘密鍵のように「ファイルのまま次へ渡す」ものに使う。
+        # **中身は絶対に出力しない**（パスとバイト数だけ出す）。エージェントの文脈に
+        # 秘密を載せないための経路であり、value op と同じ思想。
+        target = out / cmd.get("file", "download.bin")
+        with page.expect_download(timeout=120000) as dl:
+            page.click(cmd["selector"], timeout=15000)
+        dl.value.save_as(str(target))
+        print(f"download saved: {target.name} ({target.stat().st_size} bytes)", flush=True)
+        shoot("after download")
     elif op == "text":
         target = cmd.get("selector", "body")
         (out / "text.txt").write_text(page.inner_text(target))
@@ -211,6 +221,7 @@ def main() -> int:
             user_data_dir=str(out / "profile"),
             channel="chrome",
             headless=False,
+            accept_downloads=True,
             viewport=None,          # OS ウィンドウのサイズをそのまま使う
             args=[f"--window-position={left},{top}",
                   f"--window-size={width},{height}"],
