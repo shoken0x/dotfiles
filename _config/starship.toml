@@ -1,7 +1,9 @@
 # プロンプトの全体フォーマット（1行目・2行目と背景色）
 format = """
 [ $time ](bg:236 fg:6)\
-[ / $directory ](bg:236 fg:6)\
+[](fg:236 bg:#80EBDF)\
+[ $directory ](bg:#80EBDF fg:#313244 bold)\
+[](fg:#80EBDF bg:236)\
 $git_branch\
 $git_status\
 [](fg:236)\n\
@@ -20,10 +22,12 @@ truncation_length = 0
 
 # Gitブランチ名
 [git_branch]
+disabled = false
 format = "[ / $branch(:$remote_branch) ](bg:236 fg:3)"
 
 # Gitステータス
 [git_status]
+disabled = false
 format = "[$all_status ](bg:236 fg:3)"
 conflicted = "~$count "
 ahead = "⇡$count "
@@ -41,3 +45,4 @@ deleted = "✘$count "
 [character]
 success_symbol = "[%](bold green)"
 error_symbol = "[%](bold red)"
+
