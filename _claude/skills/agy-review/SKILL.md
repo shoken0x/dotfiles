@@ -189,6 +189,24 @@ until prowl agents --json | jq -e --arg p "$pane" '.data.agents[]|select(.pane.i
 
 ---
 
+### 5-5. 🔴 agy がバックグラウンドタスクの完了を検知できず、無限に待つ
+
+`bundle exec brakeman -q` のような長めのコマンドを agy が **ManageTask（バックグラウンド）で起動**すると、
+コマンドが終わっても agy 側が完了を検知せず「完了を待機しています」のまま止まることがある
+（2026-09-25 に実測。画面下部に `● [09:51:05] bundle exec brakeman -q running` が出たまま 6 分。
+`pgrep -fl brakeman` で該当プロセスは**存在しなかった**）。§5-2 の「画面が 5 分動かない」に当たる。
+
+対処: **プロセスの有無を `pgrep` で確認し、無ければ自分の実行結果を渡して先に進ませる。**
+
+```bash
+pgrep -fl brakeman || echo "(none)"     # agy 自身のコマンドライン（依頼文に語が含まれる）は除いて見る
+prowl send --pane "$pane" 'brakeman のプロセスはもう存在しません。完了は待たず、私の実行結果「Security Warnings: 0 / ...」で判定を確定し、tmp/agy_review_result.md に書き出してください。' --no-wait --json
+```
+
+⚠️ 依頼文でレビュアーに **全体スイート・brakeman などの重いコマンドを実行させない**のが先手
+（「個別 spec の実行は可」と範囲を切る）。結果は依頼側が実行して依頼文に書いておく。
+
+
 ## 6. 結果を受け取ったら
 
 1. **指摘を鵜呑みにしない。** 各指摘を**自分でコマンドを叩いて再検証する**。
