@@ -222,17 +222,23 @@ until prowl agents --json | jq -e --arg p "$pane" '.data.agents[]|select(.pane.i
 `bundle exec brakeman -q` のような長めのコマンドを agy が **ManageTask（バックグラウンド）で起動**すると、
 コマンドが終わっても agy 側が完了を検知せず「完了を待機しています」のまま止まることがある
 （2026-09-25 に実測。画面下部に `● [09:51:05] bundle exec brakeman -q running` が出たまま 6 分。
-`pgrep -fl brakeman` で該当プロセスは**存在しなかった**）。§5-2 の「画面が 5 分動かない」に当たる。
+`pgrep` で見ると該当プロセスは**存在しなかった**）。§5-2 の「画面が 5 分動かない」に当たる。
 
 対処: **プロセスの有無を `pgrep` で確認し、無ければ自分の実行結果を渡して先に進ませる。**
 
 ```bash
-pgrep -fl brakeman || echo "(none)"     # agy 自身のコマンドライン（依頼文に語が含まれる）は除いて見る
+# PID と実行ファイル名だけを見る（引数は表示しない。⚠️ 下記）。agy 自身（依頼文に語が含まれる）は名前で見分けて除く
+for p in $(pgrep -f brakeman); do ps -o pid=,comm= -p "$p"; done; echo "(以上)"
 prowl send --pane "$pane" 'brakeman のプロセスはもう存在しません。完了は待たず、私の実行結果「Security Warnings: 0 / ...」で判定を確定し、tmp/agy_review_result.md に書き出してください。' --no-wait --json
 ```
 
 ⚠️ 依頼文でレビュアーに **全体スイート・brakeman などの重いコマンドを実行させない**のが先手
 （「個別 spec の実行は可」と範囲を切る）。結果は依頼側が実行して依頼文に書いておく。
+
+🔴 **`pgrep -fl` は使わない。** macOS では、`Process.setproctitle` を呼んだ Ruby のプロセス（`rubocop --server` など）に
+当たると、そのプロセスの**環境変数（API トークンを含む）が引数の続きとして表示され**、トランスクリプトに残る
+（2026-09-30 実測: `pgrep -fl 'bundle exec|rspec|rubocop|brakeman'` で、別の worktree の `rubocop --server` の
+トークンが表示された。ダミーの環境変数で再現を確かめた）。`pgrep -f`（PID だけ）と `ps -o comm=` には出ない。
 
 
 ## 6. 結果を受け取ったら
