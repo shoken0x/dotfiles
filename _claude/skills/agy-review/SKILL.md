@@ -1,6 +1,6 @@
 ---
 name: agy-review
-description: 設計文書・PR・実装方針を、別セッションの Antigravity CLI（`agy`）にレビューさせる。Prowl の隣 pane で `agy` を起動し、依頼文をファイルで渡し、結果をファイルで受け取るまで。Triggers 「別のモデルにレビューさせて」「agy にレビューしてもらって」「設計書をレビューさせて」「セカンドオピニオンが欲しい」「別セッションレビューを回して」。⚠️ `gemini` CLI は個人アカウントでは使えなくなっているので使わない（本文の §0 参照）。
+description: 設計文書・PR・実装方針を、別セッションの Antigravity CLI（`agy`）にレビューさせる。Prowl の隣 pane で `agy` を起動し、依頼文をファイルで渡し、結果をファイルで受け取るまで。Triggers 「別のモデルにレビューさせて」「agy にレビューしてもらって」「agy にレビュー依頼して」「agy に見せて」「agy に再レビューさせて」「PR 作成前に agy に」「設計書をレビューさせて」「セカンドオピニオンが欲しい」「別セッションレビューを回して」/ 特に指定がなければ PR を作る前（個人設定の hook が gh pr create の前に確かめる）。🔴 同じ会話で 2 回目以降の依頼でも毎回この skill を読み込む。⚠️ `gemini` CLI は個人アカウントでは使えなくなっているので使わない（本文の §0 参照）。
 ---
 
 # agy にレビューさせる
@@ -9,6 +9,15 @@ description: 設計文書・PR・実装方針を、別セッションの Antigra
 
 同じセッションで自己レビューしても、自分の前提がそのまま通るだけで穴は見つからない。別プロセスに
 **リポジトリを実際に読ませて**指摘させることに意味がある。
+
+🔴 **同じ会話の 2 回目以降の依頼でも、毎回この skill を読み込んでから始める**（ユーザーが `/agy-review` と
+書いていなくても、agy に頼むなら Skill ツールで読み込む）。覚えている手順で進めると細部がずれる
+（2026-09-30 実測: 2 回目に読み込み直さずに進め、§4 の PATH の件と §3 の作業ツリーの扱いで手順から外れた）。
+
+🤖 **特に指定がなければ、PR を作る前にこの skill でレビューする。** 個人設定の hook
+（`~/.claude/hooks/require_agy_review_before_pr.py`）が `gh pr create` の前に、直前の PR 作成より後に
+この skill を読み込んだかを確かめ、無ければ止める。ユーザーが「agy レビューは不要」と明示したときだけ、
+`AGY_REVIEW=skip gh pr create ...` の形で通す。
 
 ---
 
@@ -101,14 +110,33 @@ git rev-list --left-right --count @{u}...HEAD   # 0 0（push 済み）
 
 汚れているならコミットするか、レビューを待たせる。
 
+PR を作る前の**未コミットの差分**を見せたいときは、コミットの代わりに、起動前の状態を控えて終わってから照合する:
+
+```bash
+git diff | shasum -a 256 > /tmp/agy_diff.sha256     # scratchpad があればそちらへ
+git status --short > /tmp/agy_status.txt             # 未追跡ファイルの一覧も控える
+NEW=path/to/new-file.md                              # 未追跡の新規ファイル（git diff に出ないので個別に控える。無ければ不要）
+shasum -a 256 "$NEW" > /tmp/agy_new.sha256
+# …レビューの後…
+git diff | shasum -a 256 | diff - /tmp/agy_diff.sha256 && echo "差分は書き換えられていない"
+git status --short | diff - /tmp/agy_status.txt && echo "ファイルは増えていない"
+shasum -a 256 -c /tmp/agy_new.sha256
+```
+
 ---
 
 ## 4. `agy` を起動する
 
 ```bash
 pane="$(cat /tmp/agy_pane.txt)"
-prowl send --pane "$pane" 'agy --dangerously-skip-permissions --effort high -i "$(cat tmp/agy_review_request.md)"' --no-wait --json
+AGY="$(command -v agy)"; [ -n "$AGY" ] || { echo "agy が無い"; exit 1; }
+prowl send --pane "$pane" "$AGY"' --dangerously-skip-permissions --effort high -i "$(cat tmp/agy_review_request.md)"' --no-wait --json
 ```
+
+⚠️ **新しい pane の PATH に `agy` があるとは限らない。** 自分のシェルで解決した絶対パスで送る
+（2026-09-30 実測: 新しい pane の PATH に `~/.local/bin` が無く、`zsh: command not found: agy` になった。
+`command -v agy` は自分のシェルで通っていた）。`"$AGY"` は自分のシェルで展開し、`$(cat ...)` は
+単一引用符の中なので pane の側で展開される。
 
 | フラグ | 理由 |
 | --- | --- |
@@ -214,7 +242,8 @@ prowl send --pane "$pane" 'brakeman のプロセスはもう存在しません�
 2. **正しかった指摘 / 誤っていた指摘を分けて報告する。** 「全部直した」ではなく
    「N 件中 M 件が正しく、M' 件は誤りだった（根拠）」
 3. 設計文書を直すなら、**レビュー記録を凍結文書として残す**
-   （`design_review_YYYYMMDD.md` 等。履歴なので後から書き換えない）
+   （`design_review_YYYYMMDD.md` 等。履歴なので後から書き換えない）。
+   設計文書ではない変更（コード・スクリプト）なら、指摘ごとの検証結果と採否を PR 本文に残す
 4. pane を片付ける: `prowl close "$pane" --json`
 
 ---
@@ -229,3 +258,5 @@ prowl send --pane "$pane" 'BLOCKER 2 の根拠になったファイルと行を�
 ```
 
 ⚠️ **idle を待たずに送ると、走っているターンに文字列が混ざる。**
+§5-2 のとおり `prowl agents` の検出は当てにならないので、`prowl read` で画面の入力欄（`>`）が出ていて、
+`Running command...` 等が出ていないことも確かめてから送る。

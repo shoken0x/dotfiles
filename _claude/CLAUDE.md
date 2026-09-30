@@ -28,3 +28,14 @@ Before you go on your task, check the current git branch name. If it's something
   - 旧版を見比べたい／コメントを残したいときはタブを入れ替える:
     `docs add-tab --title` → `docs write --tab ... --replace` → `docs delete-tab --tab <旧> --force`
 - 詳細は `gdoc-update` skill（`/gdoc-update`）。
+
+## agy（Antigravity CLI）によるレビュー
+
+- **agy にレビューを頼むときは、毎回 `agy-review` skill を Skill ツールで読み込んでから始める。**
+  同じ会話の 2 回目以降も同じ。ユーザーが `/agy-review` と書いていなくてもそうする
+  - 理由: 読み込み済みの手順を覚えたまま進めると細部がずれる（2026-09-30 実測）
+- **特に指定がなければ、PR を作る前に agy レビューを行う。**
+  個人設定の hook（`~/.claude/hooks/require_agy_review_before_pr.py`）が `gh pr create` の前に確かめて、
+  直前の PR 作成より後にレビューしていなければ止める
+  - ユーザーが「agy レビューは不要」と明示したときだけ、`AGY_REVIEW=skip gh pr create ...` の形で通す
+  - チームのリポジトリの hook には入れない（agy を入れていないメンバーがいるため）

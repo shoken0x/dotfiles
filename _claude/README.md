@@ -17,7 +17,7 @@ PUBLIC リポジトリに入る。そのため個別に symlink する。
 | `CLAUDE.md` | 全プロジェクト共通のグローバル指示 |
 | `settings.json` | hook 登録・permissions・plugin・statusLine |
 | `statusline-command.sh` | ステータスライン（cx / 5h / 7d / 直前のプロンプト） |
-| `hooks/` | `save_last_prompt.sh` / `guard_br_doctor_gitignore.sh` / `advise_context7.sh` とテスト |
+| `hooks/` | `save_last_prompt.sh` / `guard_br_doctor_gitignore.sh` / `advise_context7.sh` / `require_agy_review_before_pr.py`（PR 作成前の agy レビュー必須化）とテスト |
 | `commands/` | `/exit-cm` / `/tool-usage` |
 | `toolstats/` | ツール使用状況の集計コードのみ（DB と state は `~/.claude` 側に残す） |
 | `skills/` | 汎用スキルのみ（`diagram-craft` / `supacode-cli`） |
