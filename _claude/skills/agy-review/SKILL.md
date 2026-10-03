@@ -60,6 +60,28 @@ cat > tmp/agy_review_request.md <<'EOF'
 VERDICT: APPROVE | CHANGES_REQUESTED
 ## BLOCKER / ## MAJOR / ## MINOR / ## 良かった点
 （各項目に [ファイル:行] 指摘 / 根拠 / 提案）
+## ツール使用回数（必須・末尾に表で）
+| ツール | 回数 | 主な用途（何を確かめたか） |
+| --- | ---: | --- |
+| ast-grep（bash で `ast-grep` を実行した回数） | N | |
+| Serena（`find_symbol` 等の MCP 呼び出し回数。ツール名ごとの内訳も） | N | |
+| context7（`resolve-library-id` / `query-docs` の合計） | N | |
+| grep / ファイル読み取りのみ | N | |
+0 回のツールは、使わなかった理由を 1 行で書く（「該当する調査が無かった」等）。実際の呼び出し回数を数え、推定で書かない
+
+## 調査ツール（必ず使い分ける）
+- 🔴 **grep だけで済ませない。** 条件の種類でツールを選ぶ:
+  - リテラル（文字列・定数名）→ `grep -rn`（`.haml` / `.jbuilder` / `.rake` はこれしか読めない）
+  - 引数の形・ネスト関係・同じ構文パターン → bash で `ast-grep run --lang ruby|tsx -p '<pattern>' <dir>`
+    （⚠️ 0 件は「該当なし」の証拠にならない。存在すると分かっているケースでマッチを確認してから信じる。
+    `--lang ruby` は `.rb` しか見ない）
+  - シンボルの定義位置・参照元・レシーバ → Serena MCP の `find_symbol` / `find_referencing_symbols` /
+    `get_symbols_overview`（name path は compact 定義なら `A::B`、ネストなら `A/B`。空配列は「無い」ではなく
+    name path の誤りを疑う。Ruby では `find_implementations` は使えない）
+  - gem / npm / 外部 API の**仕様**（Rails 8.1 / Ruby 4.0 / Tailwind v4 は学習データより新しい）→
+    **context7 MCP**（`resolve-library-id` → `query-docs`）。記憶や WebSearch で書かない
+- 使ったツールと、何を確かめたかを指摘の根拠欄に書く。Serena のコード編集系ツール（`replace_*` /
+  `rename_symbol` / `insert_*` / `safe_delete_symbol`）と memory 書き込みは使わない（読み取りのみ）
 
 ## 重要なお願い
 - 🔴 推測で「おそらくこうなっている」と書かない。確認していない主張は「未確認」と明記する
@@ -77,6 +99,21 @@ EOF
 - **`file:line` の主張は実ファイルを開いて確かめて**と書く。書かないと文書を読むだけで終わる
 - **出力をファイルに書かせる。** 画面はスクロールで欠ける（§5-4）
 - **修正させない。** レビューと編集を同時にやらせると差分が混ざって切り分けられなくなる
+
+---
+
+### 1-1. agy 側の前提（セットアップ済み・2026-10-03 確認）
+
+`agy mcp list` に `serena`（`--context antigravity --project .`）と `context7` が `enabled` で入っている。
+agy の起動ディレクトリ（= レビュー対象の worktree）がそのまま Serena のプロジェクトになる。
+`ast-grep` は `/opt/homebrew/bin` の CLI を bash から呼ぶ（MCP ではない）。
+疎通確認（毎回は不要・壊れた疑いがあるとき）:
+
+```bash
+agy --dangerously-skip-permissions --effort low -p='Serena の find_symbol と context7 の query-docs を1回ずつ呼んで結果を報告して'
+```
+
+⚠️ `-p` は `-p='...'` と値を直結する（`-p --dangerously-skip-permissions` だとフラグが prompt になる）。
 
 ---
 
@@ -243,6 +280,8 @@ prowl send --pane "$pane" 'brakeman のプロセスはもう存在しません�
 
 ## 6. 結果を受け取ったら
 
+0. **「ツール使用回数」の表を見る。** ast-grep / Serena / context7 が 0 回で、依頼文の観点に該当する調査があったなら、
+   grep だけで済ませた疑いがある。その指摘は特に再検証する（画面の呼び出し履歴と回数が合うかも見る）
 1. **指摘を鵜呑みにしない。** 各指摘を**自分でコマンドを叩いて再検証する**。
    別モデルも間違える（file:line のずれ、母数の数え間違い）
 2. **正しかった指摘 / 誤っていた指摘を分けて報告する。** 「全部直した」ではなく
